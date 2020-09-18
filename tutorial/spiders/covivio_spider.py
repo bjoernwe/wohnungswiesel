@@ -1,3 +1,4 @@
+import dataclasses
 import json
 import scrapy
 import urllib
@@ -5,7 +6,9 @@ import urllib.parse
 
 from scrapy import Request
 from scrapy.http import TextResponse
-from typing import Optional, Iterable
+from typing import Iterable
+
+from tutorial.items import CovivioItem
 
 
 class CovivioSpider(scrapy.Spider):
@@ -40,4 +43,7 @@ class CovivioSpider(scrapy.Spider):
     def parse(self, response: TextResponse):
         objects = json.loads(response.text)
         for obj in objects:
-            yield obj
+            fields = CovivioItem.fields.keys()
+            value_dict = {k: obj[k] for k in fields}
+            covivio_item = CovivioItem(**value_dict)
+            yield covivio_item
