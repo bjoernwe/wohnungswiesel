@@ -1,7 +1,6 @@
 import scrapy
 
 from scrapy import Request
-from scrapy.crawler import CrawlerProcess
 from scrapy.http import TextResponse
 from typing import Optional
 
@@ -29,9 +28,3 @@ class QuotesSpider(scrapy.Spider):
                 'author': quote.css('small.author::text').get(),
                 'tags': quote.css('div.tags a.tag::text').getall(),
             }
-
-
-if __name__ == '__main__':
-    process = CrawlerProcess()
-    process.crawl(QuotesSpider)
-    process.start()
