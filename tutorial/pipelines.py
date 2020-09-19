@@ -6,6 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+import os
 import pickle
 import time
 
@@ -20,14 +21,17 @@ class CovivioNotificationPipeline:
         self._known_items = {}
 
     def open_spider(self, spider):
-        with open(self._filename, 'rb+') as f:
-            self._known_items = pickle.load(f)
+        try:
+            with open(self._filename, 'rb') as f:
+                self._known_items = pickle.load(f)
+        except FileNotFoundError:
+            pass
 
     def close_spider(self, spider):
         with open(self._filename, 'wb+') as f:
             pickle.dump(self._known_items, f)
 
-    def process_item(self, item, spider):
+    def process_item(self, item, spider) -> CovivioItem:
         if self._is_known_item(item):
             return item
         self._remember_item(item)
@@ -43,5 +47,13 @@ class CovivioNotificationPipeline:
         is_known = item['id'] in self._known_items
         return is_known
 
-    def _process_new_item(self, item: CovivioItem):
-        post_flat_to_slack(title=item['id'], rooms=0, address='n/a', price=0, size=0)
+    def _process_new_item(self, item: CovivioItem) -> CovivioItem:
+        post_flat_to_slack(title=item['title']['rendered'],
+                           rooms=item['anzahl_zimmer'],
+                           address=item['adresse'],
+                           price=item['kaltmiete'],
+                           size=item.get('wohnflaeche', '[n/a]'),
+                           link_url=item['link'],
+                           district=item['regionaler_zusatz'],
+                           merkmale=item['merkmale'])
+        return item

@@ -10,7 +10,11 @@ from scrapy import Field, Item
 
 class CovivioItem(Item):
     id = Field()
+    title = Field()
     link = Field()
     anzahl_zimmer = Field()
     adresse = Field()
     regionaler_zusatz = Field()
+    wohnflaeche = Field()
+    kaltmiete = Field()
+    merkmale = Field()
