@@ -11,7 +11,7 @@ import pickle
 import time
 
 from slackpost import post_flat_to_slack
-from tutorial.items import CovivioItem
+from scraper.items import CovivioItem
 
 
 class CovivioNotificationPipeline:

@@ -8,7 +8,7 @@ from scrapy import Request
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from tutorial.items import CovivioItem
+from scraper.items import CovivioItem
 
 
 log = logging.getLogger('covivio_spider')
