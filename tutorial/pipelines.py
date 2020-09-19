@@ -6,41 +6,38 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-import json
+import pickle
 import time
 
-from json import JSONDecodeError
-
+from slackpost import post_flat_to_slack
 from tutorial.items import CovivioItem
 
 
 class CovivioNotificationPipeline:
 
     def __init__(self):
-        self._filename = 'covivio_known_items.json'
+        self._filename = 'covivio_known_items.pkl'
         self._known_items = {}
 
     def open_spider(self, spider):
-        with open(self._filename, 'w+') as f:
-            try:
-                self._known_items = json.load(f)
-            except JSONDecodeError:
-                pass
+        with open(self._filename, 'rb+') as f:
+            self._known_items = pickle.load(f)
 
     def close_spider(self, spider):
-        with open(self._filename, 'w') as f:
-            json.dump(self._known_items, f)
+        with open(self._filename, 'wb+') as f:
+            pickle.dump(self._known_items, f)
 
     def process_item(self, item, spider):
         if self._is_known_item(item):
             return item
         self._remember_item(item)
-        return item
+        # TODO: Forget old items
+        return self._process_new_item(item=item)
 
     def _remember_item(self, item: CovivioItem):
-        key = item['id']
-        value = time.time()
-        self._known_items[key] = value
+        item_id = item['id']
+        now = time.time()
+        self._known_items[item_id] = now
 
     def _is_known_item(self, item: CovivioItem):
         is_known = item['id'] in self._known_items
