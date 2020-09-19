@@ -10,6 +10,8 @@ import os
 import pickle
 import time
 
+from typing import Optional
+
 from slackpost import post_flat_to_slack
 from scraper.items import CovivioItem
 
@@ -21,13 +23,19 @@ class CovivioNotificationPipeline:
         self._known_items = {}
 
     def open_spider(self, spider):
+        self._load_known_items()
+
+    def close_spider(self, spider):
+        self._save_known_items()
+
+    def _load_known_items(self) -> None:
         try:
             with open(self._filename, 'rb') as f:
-                self._known_items = pickle.load(f)
+                self._filename = pickle.load(f)
         except FileNotFoundError:
             pass
 
-    def close_spider(self, spider):
+    def _save_known_items(self) -> None:
         with open(self._filename, 'wb+') as f:
             pickle.dump(self._known_items, f)
 
