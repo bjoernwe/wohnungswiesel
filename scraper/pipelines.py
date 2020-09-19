@@ -31,7 +31,7 @@ class CovivioNotificationPipeline:
     def _load_known_items(self) -> None:
         try:
             with open(self._filename, 'rb') as f:
-                self._filename = pickle.load(f)
+                self._known_items = pickle.load(f)
         except FileNotFoundError:
             pass
 
