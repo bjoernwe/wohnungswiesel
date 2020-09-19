@@ -18,3 +18,4 @@ class CovivioItem(Item):
     wohnflaeche = Field()
     kaltmiete = Field()
     merkmale = Field()
+    bilder = Field()

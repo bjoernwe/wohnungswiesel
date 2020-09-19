@@ -34,7 +34,6 @@ class CovivioNotificationPipeline:
     def process_item(self, item, spider) -> CovivioItem:
         if self._is_known_item(item):
             return item
-        self._remember_item(item)
         # TODO: Forget old items
         return self._process_new_item(item=item)
 
@@ -55,5 +54,8 @@ class CovivioNotificationPipeline:
                            size=item.get('wohnflaeche', '[n/a]'),
                            link_url=item['link'],
                            district=item['regionaler_zusatz'],
-                           merkmale=item['merkmale'])
+                           merkmale=item['merkmale'],
+                           image_url=item['bilder'][0]['url']
+                           )
+        self._remember_item(item)
         return item

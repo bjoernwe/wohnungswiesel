@@ -21,22 +21,18 @@ def post_flat_to_slack(title: str, rooms: Union[int, float], address: str, price
         },
         "accessory": {
             "type": "image",
-            "image_url": "https://www.covivio.immo/wp-content/uploads/LOGO_PROFILE-FAVICOM_400x400.jpg",
-            "alt_text": "Covivio"
+            "image_url": image_url,
+            "alt_text": "Wohnung"
         }
     }
 
-    image_block = {"type": "image", "image_url": {image_url}} if image_url else None
-
     blocks = [descr_block]
-
-    if image_block:
-        blocks.append(image_block)
 
     try:
         slack.chat_postMessage(
             channel='#flat-hunt-berlin',
-            blocks=blocks
+            blocks=blocks,
+            icon_url='https://www.covivio.immo/wp-content/uploads/LOGO_PROFILE-FAVICOM_400x400.jpg'
         )
 
     except SlackApiError as e:
