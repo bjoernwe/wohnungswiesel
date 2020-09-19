@@ -42,3 +42,6 @@ class CovivioNotificationPipeline:
     def _is_known_item(self, item: CovivioItem):
         is_known = item['id'] in self._known_items
         return is_known
+
+    def _process_new_item(self, item: CovivioItem):
+        post_flat_to_slack(title=item['id'], rooms=0, address='n/a', price=0, size=0)
