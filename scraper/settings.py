@@ -89,8 +89,8 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-FEEDS = {
-    '/home/bjoern/Desktop/items.json': {
-        'format': 'jsonlines'
-    }
-}
+#FEEDS = {
+#    '/home/bjoern/Desktop/items.json': {
+#        'format': 'jsonlines'
+#    }
+#}
