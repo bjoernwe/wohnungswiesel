@@ -42,13 +42,19 @@ class CovivioNotificationPipeline:
     def process_item(self, item, spider) -> CovivioItem:
         if self._is_known_item(item):
             return item
-        # TODO: Forget old items
+        self._forget_old_items()
         return self._process_new_item(item=item)
 
     def _remember_item(self, item: CovivioItem):
         item_id = item['id']
         now = time.time()
         self._known_items[item_id] = now
+
+    def _forget_old_items(self):
+        for item_id, timestamp in list(self._known_items.items()):
+            is_older_than_two_weeks = timestamp + 60*60*24*7*2 >= time.time()
+            if is_older_than_two_weeks:
+                self._known_items.pop(item_id)
 
     def _is_known_item(self, item: CovivioItem):
         is_known = item['id'] in self._known_items
