@@ -11,8 +11,8 @@
 
 BOT_NAME = 'covivio'
 
-SPIDER_MODULES = ['tutorial.spiders']
-NEWSPIDER_MODULE = 'tutorial.spiders'
+SPIDER_MODULES = ['scraper.spiders']
+NEWSPIDER_MODULE = 'scraper.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'tutorial.pipelines.CovivioNotificationPipeline': 300,
+    'scraper.pipelines.CovivioNotificationPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
