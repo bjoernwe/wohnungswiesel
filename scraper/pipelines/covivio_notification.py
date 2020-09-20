@@ -6,12 +6,6 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-import os
-import pickle
-import time
-
-from typing import Optional
-
 from slackpost import post_flat_to_slack
 from scraper.items import CovivioItem
 
