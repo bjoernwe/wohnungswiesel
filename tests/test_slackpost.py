@@ -8,7 +8,8 @@ from utils.slackpost import post_flat_to_slack
 
 @pytest.fixture
 def flat_item():
-    return FlatItem(id='42')
+    return FlatItem(id='42', link=None, title='Title', size=100, rooms=3, address='Hauptstr. 1, Berlin', district=None,
+                    rent_cold=500, rent_total=600, image_urls=[])
 
 
 @pytest.fixture

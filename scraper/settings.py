@@ -9,7 +9,7 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'covivio'
+BOT_NAME = 'wohnungswiesel'
 
 SPIDER_MODULES = ['scraper.spiders']
 NEWSPIDER_MODULE = 'scraper.spiders'
@@ -66,7 +66,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'scraper.pipelines.duplicate_filter.DuplicateFilterPipeline': 300,
-    'scraper.pipelines.covivio_notification.CovivioNotificationPipeline': 800,
+    'scraper.pipelines.slack_notification.SlackNotificationPipeline': 800,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

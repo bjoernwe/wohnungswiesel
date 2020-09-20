@@ -10,7 +10,7 @@ from utils.slackpost import post_flat_to_slack
 from scraper.items import FlatItem
 
 
-class CovivioNotificationPipeline:
+class SlackNotificationPipeline:
 
     def __init__(self):
         pass

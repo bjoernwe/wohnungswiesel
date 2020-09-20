@@ -12,7 +12,7 @@ def post_flat_to_slack(flat_item: FlatItem):
     slack = WebClient(token=os.environ['SLACK_API_TOKEN'])
 
     flat = ItemAdapter(flat_item)
-    rent = f"{int(flat['rent_warm'])} (warm) €" if flat['rent_warm'] else f"{int(flat['rent_cold'])} €"
+    rent = f"{int(flat['rent_total'])} (warm) €" if flat['rent_total'] else f"{int(flat['rent_cold'])} €"
     district_str = f"in {flat['district']}" if flat['district'] else ''
 
     descr_block = {
