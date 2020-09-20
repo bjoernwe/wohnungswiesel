@@ -6,6 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+import pathlib
 import pickle
 import time
 
@@ -18,7 +19,7 @@ from scraper.items import FlatItem
 class DuplicateFilterPipeline:
 
     def __init__(self):
-        self._filename = 'covivio_known_items.pkl'
+        self._filename = str(pathlib.Path('~/.wohnungswiesel/known_items.pkl').expanduser())
         self._known_items = {}
 
     def open_spider(self, spider):
@@ -30,6 +31,7 @@ class DuplicateFilterPipeline:
 
     def _load_known_items(self) -> None:
         try:
+            pathlib.Path(self._filename).parent.mkdir(parents=True, exist_ok=True)
             with open(self._filename, 'rb') as f:
                 self._known_items = pickle.load(f)
         except FileNotFoundError:
