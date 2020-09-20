@@ -16,7 +16,7 @@ def post_flat_to_slack(flat_item: FlatItem):
     rent = f"{int(flat['rent_total'])} (warm) €" if flat['rent_total'] else f"{int(flat['rent_cold'])} €"
     district_str = f"in {flat['district']}" if flat['district'] else ''
 
-    description = (f"> *[{flat['agency']}]* <{flat['link']}|*{flat['title']}*>\n"
+    description = (f"> <{flat['link']}|*{flat['title']}* *[{flat['agency']}]*>\n"
                    f"> {flat['rooms']} Zimmer ({flat['size']} qm) {district_str}\n"
                    f"> <https://maps.google.com/?q={flat['address']}|{flat['address']}>\n"
                    f"> Miete: {rent}"
@@ -26,9 +26,9 @@ def post_flat_to_slack(flat_item: FlatItem):
 
     try:
         slack.chat_postMessage(
-            channel='#flat-hunt-berlin',
+            channel='#new_flats',
             blocks=[block],
-            icon_url=None
+            icon_url='https://i.imgur.com/OkldsAZ.jpg'
         )
     except SlackApiError as e:
         print(f"Got an error: {e.response['error']}")
