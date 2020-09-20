@@ -12,6 +12,7 @@ from typing import List
 @dataclass
 class FlatItem:
     id: str
+    agency: str
     link: str# = field(default=None)
     title: str# = field(default=None)
     size: float# = field(default=None)

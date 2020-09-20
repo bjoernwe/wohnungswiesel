@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'scraper.pipelines.duplicate_filter.DuplicateFilterPipeline': 300,
+    #'scraper.pipelines.duplicate_filter.DuplicateFilterPipeline': 300,
     'scraper.pipelines.slack_notification.SlackNotificationPipeline': 800,
 }
 

@@ -71,6 +71,7 @@ class DegewoSpider(scrapy.Spider):
         for flat_dict in response_json['immos']:
             log.debug(f'found raw item: {flat_dict}')
             flat_args = {k_out: flat_dict[k_in] for k_in, k_out in self._map_to_flat.items()}
+            flat_args['agency'] = 'degewo'
             flat_args['link'] = response.urljoin(flat_dict['property_path'])
             flat_args['image_urls'] = [flat_dict['thumb_url']]
             flat_args['address'] = ', '.join([s.strip() for s in flat_dict['full_address'].split('|')])
