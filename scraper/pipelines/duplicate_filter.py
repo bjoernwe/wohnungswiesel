@@ -6,40 +6,47 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+import logging
 import pathlib
 import pickle
 import time
 
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
+from threading import RLock
 
 from scraper.items import FlatItem
+
+
+log = logging.getLogger('duplicate_filter_pipeline')
 
 
 class DuplicateFilterPipeline:
 
     def __init__(self):
         self._filename = str(pathlib.Path('~/.wohnungswiesel/known_items.pkl').expanduser())
-        self._known_items = {}
+        self._file_lock = RLock()
+        #self._known_items = {}
 
     def open_spider(self, spider):
-        self._load_known_items()
-        self._forget_old_items()
+        pass
 
     def close_spider(self, spider):
-        self._save_known_items()
+        pass
 
-    def _load_known_items(self) -> None:
+    def _load_known_items(self) -> dict:
         try:
-            pathlib.Path(self._filename).parent.mkdir(parents=True, exist_ok=True)
-            with open(self._filename, 'rb') as f:
-                self._known_items = pickle.load(f)
+            with self._file_lock:
+                pathlib.Path(self._filename).parent.mkdir(parents=True, exist_ok=True)
+                with open(self._filename, 'rb') as f:
+                    return pickle.load(f)
         except FileNotFoundError:
-            pass
+            return {}
 
-    def _save_known_items(self) -> None:
-        with open(self._filename, 'wb+') as f:
-            pickle.dump(self._known_items, f)
+    def _save_known_items(self, known_items: dict) -> None:
+        with self._file_lock:
+            with open(self._filename, 'wb+') as f:
+                pickle.dump(known_items, f)
 
     def process_item(self, item, spider) -> FlatItem:
         item_adapter = ItemAdapter(item=item)
@@ -52,15 +59,24 @@ class DuplicateFilterPipeline:
     def _remember_item(self, item: ItemAdapter):
         item_id = item['id']
         now = time.time()
-        self._known_items[item_id] = now
+        with self._file_lock:
+            known_items = self._load_known_items()
+            known_items[item_id] = now
+            self._save_known_items(known_items)
 
     def _forget_old_items(self):
-        for item_id, timestamp in list(self._known_items.items()):
-            timestamp_now = time.time()
-            is_older_than_two_weeks = timestamp_now >= timestamp + 60*60*24*7*2
-            if is_older_than_two_weeks:
-                self._known_items.pop(item_id)
+        with self._file_lock:
+            known_items = self._load_known_items()
+            for item_id, timestamp in list(known_items.items()):
+                timestamp_now = time.time()
+                is_older_than_two_weeks = timestamp_now >= timestamp + 60*60*24*7*2
+                if is_older_than_two_weeks:
+                    with self._file_lock:
+                        known_items.pop(item_id)
+            self._save_known_items(known_items)
 
     def _is_known_item(self, item: ItemAdapter):
-        is_known = item['id'] in self._known_items
+        with self._file_lock:
+            known_items = self._load_known_items()
+            is_known = item['id'] in known_items
         return is_known
