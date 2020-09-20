@@ -8,7 +8,7 @@ from scrapy import Request
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import CovivioItem
+from scraper.items import FlatItem
 
 
 log = logging.getLogger('covivio_spider')
@@ -37,6 +37,19 @@ class CovivioSpider(scrapy.Spider):
         'wohnflaeche_max': 250
     }
 
+    _map_to_flat = {
+        'id': 'id',
+        'link': 'link',
+        #'title': 'title',
+        #'bilder': 'pictures',
+        'adresse': 'address',
+        'regionaler_zusatz': 'district',
+        'wohnflaeche': 'size',
+        'anzahl_zimmer': 'rooms',
+        'kaltmiete': 'rent_cold'
+        #'merkmale': 'features'
+    }
+
     def start_requests(self) -> Iterable[Request]:
         api_endpoint = 'https://www.covivio.immo/wp-json/wp/v2/objekt'
         query_args = urllib.parse.urlencode(self._query_params)
@@ -47,7 +60,8 @@ class CovivioSpider(scrapy.Spider):
         objects = json.loads(response.text)
         for obj in objects:
             log.debug(f'found raw item: {obj}')
-            fields = CovivioItem.fields.keys()
-            value_dict = {k: obj[k] for k in fields}
-            covivio_item = CovivioItem(**value_dict)
-            yield covivio_item
+            flat_args = {k_out: obj[k_in] for k_in, k_out in self._map_to_flat.items()}
+            flat_args['title'] = obj['title']['rendered']
+            flat_args['image_urls'] = [img['url'] for img in obj['bilder']]
+            flat_item = FlatItem(**flat_args)
+            yield flat_item

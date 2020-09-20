@@ -6,8 +6,8 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-from slackpost import post_flat_to_slack
-from scraper.items import CovivioItem
+from utils.slackpost import post_flat_to_slack
+from scraper.items import FlatItem
 
 
 class CovivioNotificationPipeline:
@@ -21,15 +21,6 @@ class CovivioNotificationPipeline:
     def close_spider(self, spider):
         pass
 
-    def process_item(self, item, spider) -> CovivioItem:
-        post_flat_to_slack(title=item['title']['rendered'],
-                           rooms=item['anzahl_zimmer'],
-                           address=item['adresse'],
-                           price=item['kaltmiete'],
-                           size=item.get('wohnflaeche', '[n/a]'),
-                           link_url=item['link'],
-                           district=item['regionaler_zusatz'],
-                           merkmale=item['merkmale'],
-                           image_url=item['bilder'][0]['url']
-                           )
+    def process_item(self, item, spider) -> FlatItem:
+        post_flat_to_slack(item)
         return item
