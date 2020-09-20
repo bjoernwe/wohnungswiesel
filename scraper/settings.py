@@ -65,7 +65,8 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'scraper.pipelines.covivio_notification.CovivioNotificationPipeline': 300,
+    'scraper.pipelines.duplicate_filter.DuplicateFilterPipeline': 300,
+    'scraper.pipelines.covivio_notification.CovivioNotificationPipeline': 800,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

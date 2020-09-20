@@ -19,48 +19,15 @@ from scraper.items import CovivioItem
 class CovivioNotificationPipeline:
 
     def __init__(self):
-        self._filename = 'covivio_known_items.pkl'
-        self._known_items = {}
+        pass
 
     def open_spider(self, spider):
-        self._load_known_items()
+        pass
 
     def close_spider(self, spider):
-        self._save_known_items()
-
-    def _load_known_items(self) -> None:
-        try:
-            with open(self._filename, 'rb') as f:
-                self._known_items = pickle.load(f)
-        except FileNotFoundError:
-            pass
-
-    def _save_known_items(self) -> None:
-        with open(self._filename, 'wb+') as f:
-            pickle.dump(self._known_items, f)
+        pass
 
     def process_item(self, item, spider) -> CovivioItem:
-        if self._is_known_item(item):
-            return item
-        self._forget_old_items()
-        return self._process_new_item(item=item)
-
-    def _remember_item(self, item: CovivioItem):
-        item_id = item['id']
-        now = time.time()
-        self._known_items[item_id] = now
-
-    def _forget_old_items(self):
-        for item_id, timestamp in list(self._known_items.items()):
-            is_older_than_two_weeks = timestamp + 60*60*24*7*2 >= time.time()
-            if is_older_than_two_weeks:
-                self._known_items.pop(item_id)
-
-    def _is_known_item(self, item: CovivioItem):
-        is_known = item['id'] in self._known_items
-        return is_known
-
-    def _process_new_item(self, item: CovivioItem) -> CovivioItem:
         post_flat_to_slack(title=item['title']['rendered'],
                            rooms=item['anzahl_zimmer'],
                            address=item['adresse'],
@@ -71,5 +38,4 @@ class CovivioNotificationPipeline:
                            merkmale=item['merkmale'],
                            image_url=item['bilder'][0]['url']
                            )
-        self._remember_item(item)
         return item
