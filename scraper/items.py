@@ -19,5 +19,5 @@ class FlatItem:
     address: str# = field(default=None)
     district: str# = field(default=None)
     rent_cold: float# = field(default=None)
-    rent_total: float# = field(default=None)
     image_urls: List[str]# = field(default=None)
+    rent_total: float = field(default=None)
