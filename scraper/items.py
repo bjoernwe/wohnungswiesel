@@ -5,7 +5,6 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
 
-from dataclasses import field
 from pydantic import HttpUrl
 from pydantic.dataclasses import dataclass
 from typing import List, Optional
@@ -23,4 +22,4 @@ class FlatItem:
     district: Optional[str]
     rent_cold: float# = field(default=None)
     image_urls: List[HttpUrl]
-    rent_total: Optional[float]
+    rent_total: Optional[float] = None

@@ -1,6 +1,5 @@
 import json
 import logging
-import re
 import scrapy
 import urllib
 import urllib.parse
@@ -10,7 +9,7 @@ from scrapy.http import TextResponse
 from typing import Iterable
 
 from scraper.items import FlatItem
-
+from utils.parsers import parse_euro
 
 log = logging.getLogger('degewo_spider')
 
@@ -18,8 +17,6 @@ log = logging.getLogger('degewo_spider')
 class DegewoSpider(scrapy.Spider):
 
     name = "degewo"
-
-    _re_euro = re.compile(r'(\d+)[.,]*\d*\s*[€]?')
 
     _query_params = {
         'property_type_id': 1,
@@ -76,8 +73,8 @@ class DegewoSpider(scrapy.Spider):
             flat_args['image_urls'] = [flat_dict['thumb_url']]
             flat_args['address'] = ', '.join([s.strip() for s in flat_dict['full_address'].split('|')])
             flat_args['district'] = flat_dict['neighborhood']['district']
-            flat_args['rent_cold'] = self._currency_to_int(flat_dict['rent_cold'])
-            flat_args['rent_total'] = self._currency_to_int(flat_dict['rent_total_with_vat'])
+            flat_args['rent_cold'] = parse_euro(flat_dict['rent_cold'])
+            flat_args['rent_total'] = parse_euro(flat_dict['rent_total_with_vat'])
             flat_args['rooms'] = int(flat_args['rooms'].split()[0])
             flat_item = FlatItem(**flat_args)
             yield flat_item
@@ -86,6 +83,3 @@ class DegewoSpider(scrapy.Spider):
         next_page = response_json['pagination'].get('next_page')
         if next_page:
             yield scrapy.Request(response.urljoin(next_page), callback=self.parse)
-
-    def _currency_to_int(self, currency: str) -> int:
-        return int(self._re_euro.match(currency).groups()[0])
