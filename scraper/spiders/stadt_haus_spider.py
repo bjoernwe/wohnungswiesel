@@ -3,12 +3,12 @@ import scrapy
 import urllib
 import urllib.parse
 
-from scrapy import Request
+from scrapy import Request, Selector
 from scrapy.http import TextResponse
 from typing import Iterable
 
 from scraper.items import FlatItem
-
+from utils.parsers import parse_qm, parse_euro
 
 log = logging.getLogger('stadt_haus_spider')
 
@@ -31,17 +31,22 @@ class StadtHausSpider(scrapy.Spider):
 
     def parse(self, response: TextResponse, **kwargs) -> FlatItem:
         for result in response.xpath('//div[@id="block-system-main"]//div[@class="view-content"]/div'):
-            flat = FlatItem(
-                id=result.xpath('.//div[contains(@class, "objektnummer")]/text()').get(),
-                agency='stadt-haus',
-                link=response.urljoin(result.xpath('.//a/@href').get()),
-                title=result.xpath('.//div[contains(@class, "objektnummer")]/text()').get(),
-                size=result.xpath('.//div[contains(@class, "woh-wohnflaeche")]/text()').get().split()[0],
-                rooms=float(result.xpath('.//div[contains(@class, "woh-zimmer")]/text()').get().split()[0].replace(',','.')),
-                address=', '.join(result.xpath('.//div[contains(@id, "woh-adresse")]/div/text()').getall()[:3]),
-                district=result.xpath('.//div[contains(@id, "woh-adresse")]/div/text()').getall()[3],
-                rent_cold=int(result.xpath('.//div[contains(@class, "nettokaltmiete")]/div[2]/text()').get().split()[0].split(',')[0]),
-                rent_total=int(result.xpath('.//div[contains(@class, "gesamtmiete")]/div[2]/text()').get().split()[0].split(',')[0]),
-                image_urls=[result.xpath('.//img/@src').get()]
-            )
+            flat = self._parse_flat_from_selector(result, response=response)
             yield flat
+
+    @staticmethod
+    def _parse_flat_from_selector(s: Selector, response: TextResponse) -> FlatItem:
+        flat_id = s.xpath('.//div[contains(@class, "objektnummer")]/text()').get()
+        link = response.urljoin(s.xpath('.//a/@href').get())
+        title = s.xpath('.//div[contains(@class, "objektnummer")]/text()').get()
+        size = parse_qm(s.xpath('.//div[contains(@class, "woh-wohnflaeche")]/text()').get())
+        rooms = float(s.xpath('.//div[contains(@class, "woh-zimmer")]/text()').get().split()[0].replace(',', '.'))
+        address = ', '.join(s.xpath('.//div[contains(@id, "woh-adresse")]/div/text()').getall()[:3])
+        district = s.xpath('.//div[contains(@id, "woh-adresse")]/div/text()').getall()[3]
+        rent_cold = parse_euro(s.xpath('.//div[contains(@class, "nettokaltmiete")]/div[2]/text()').get())
+        rent_total = parse_euro(s.xpath('.//div[contains(@class, "gesamtmiete")]/div[2]/text()').get())
+        image_urls = [s.xpath('.//img/@src').get()]
+        flat = FlatItem(id=flat_id, agency='stadt-haus', link=link, title=title, size=size, rooms=rooms,
+                        address=address, district=district, rent_cold=rent_cold, rent_total=rent_total,
+                        image_urls=image_urls)
+        return flat

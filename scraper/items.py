@@ -5,20 +5,22 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
 
-from dataclasses import dataclass, field
-from typing import List
+from dataclasses import field
+from pydantic import HttpUrl
+from pydantic.dataclasses import dataclass
+from typing import List, Optional
 
 
 @dataclass
 class FlatItem:
     id: str
     agency: str
-    link: str# = field(default=None)
+    link: HttpUrl
     title: str# = field(default=None)
     size: float# = field(default=None)
     rooms: float# = field(default=None)
     address: str# = field(default=None)
     district: str# = field(default=None)
     rent_cold: float# = field(default=None)
-    image_urls: List[str]# = field(default=None)
-    rent_total: float = field(default=None)
+    image_urls: List[HttpUrl]
+    rent_total: Optional[float] = 0
