@@ -14,12 +14,12 @@ from typing import List, Optional
 class FlatItem:
     id: str
     agency: str
+    title: str
     link: HttpUrl
-    title: str# = field(default=None)
-    size: float# = field(default=None)
-    rooms: float# = field(default=None)
-    address: str# = field(default=None)
+    size: float
+    rooms: float
+    address: str
     district: Optional[str]
-    rent_cold: float# = field(default=None)
     image_urls: List[HttpUrl]
+    rent_cold: Optional[float] = None
     rent_total: Optional[float] = None
