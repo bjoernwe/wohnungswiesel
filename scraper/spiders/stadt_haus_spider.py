@@ -34,8 +34,7 @@ class StadtHausSpider(scrapy.Spider):
             flat = self._parse_flat_from_selector(result, response=response)
             yield flat
 
-    @staticmethod
-    def _parse_flat_from_selector(s: Selector, response: TextResponse) -> FlatItem:
+    def _parse_flat_from_selector(self, s: Selector, response: TextResponse) -> FlatItem:
         flat_id = s.xpath('.//div[contains(@class, "objektnummer")]/text()').get()
         link = response.urljoin(s.xpath('.//a/@href').get())
         title = s.xpath('.//div[contains(@class, "objektnummer")]/text()').get()
@@ -46,7 +45,7 @@ class StadtHausSpider(scrapy.Spider):
         rent_cold = parse_euro(s.xpath('.//div[contains(@class, "nettokaltmiete")]/div[2]/text()').get())
         rent_total = parse_euro(s.xpath('.//div[contains(@class, "gesamtmiete")]/div[2]/text()').get())
         image_urls = [s.xpath('.//img/@src').get()]
-        flat = FlatItem(id=flat_id, agency='stadt-haus', link=link, title=title, size=size, rooms=rooms,
+        flat = FlatItem(id=flat_id, agency=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, rent_total=rent_total,
                         image_urls=image_urls)
         return flat

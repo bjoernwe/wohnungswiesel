@@ -20,7 +20,7 @@ class FlatItem:
     size: float# = field(default=None)
     rooms: float# = field(default=None)
     address: str# = field(default=None)
-    district: str# = field(default=None)
+    district: Optional[str]
     rent_cold: float# = field(default=None)
     image_urls: List[HttpUrl]
-    rent_total: Optional[float] = 0
+    rent_total: Optional[float]
