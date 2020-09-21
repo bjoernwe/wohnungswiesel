@@ -29,7 +29,7 @@ class DegewoSpider(scrapy.Spider):
         #'address[city]': None,
         #'address[zipcode]': None,
         #'address[district]': '33, 46, 3, 2, 28, 29, 71, 64, 4-8, 58, 60, 7',
-        'district': '46, 28, 29, 60',
+        'district': [46, 28, 29, 60],
         #'price_switch': 'false',
         'price_switch': 'on',
         #'price_from': None,
@@ -62,7 +62,7 @@ class DegewoSpider(scrapy.Spider):
 
     def start_requests(self) -> Iterable[Request]:
         api_endpoint = 'https://immosuche.degewo.de/de/search.json'
-        query_args = urllib.parse.urlencode(self._query_params)
+        query_args = urllib.parse.urlencode(self._query_params, doseq=True)
         url = f'{api_endpoint}?{query_args}'
         yield scrapy.Request(url=url, callback=self.parse)
 
@@ -78,6 +78,7 @@ class DegewoSpider(scrapy.Spider):
             flat_args['district'] = flat_dict['neighborhood']['district']
             flat_args['rent_cold'] = self._currency_to_int(flat_dict['rent_cold'])
             flat_args['rent_total'] = self._currency_to_int(flat_dict['rent_total_with_vat'])
+            flat_args['rooms'] = int(flat_args['rooms'].split()[0])
             flat_item = FlatItem(**flat_args)
             yield flat_item
 
