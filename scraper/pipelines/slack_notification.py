@@ -14,5 +14,14 @@ class SlackNotificationPipeline:
         pass
 
     def process_item(self, item, spider) -> FlatItem:
-        post_flat_to_slack(item)
+        if self._flat_is_interesting(flat=item):
+            post_flat_to_slack(item)
         return item
+
+    @staticmethod
+    def _flat_is_interesting(flat: FlatItem):
+
+        if flat.rooms < 3:
+            return False
+
+        return True
