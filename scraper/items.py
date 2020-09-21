@@ -20,6 +20,6 @@ class FlatItem:
     rooms: float
     address: str
     district: Optional[str]
-    image_urls: List[HttpUrl]
     rent_cold: Optional[float] = None
     rent_total: Optional[float] = None
+    image_urls: Optional[List[HttpUrl]] = None
