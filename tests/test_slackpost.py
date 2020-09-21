@@ -4,7 +4,7 @@ import pytest
 from scraper.items import FlatItem
 from unittest import mock
 
-from scraper.pipelines.slack_notification import SlackNotificationPipeline
+from utils.slackpost import post_flat_to_slack
 
 
 @pytest.fixture
@@ -26,5 +26,5 @@ class TestSlackPost:
     def test_flat_item_is_accepted(self, flat_item):
         # GIVEN a FlatItem object
         # WHEN a flat is posted to Slack
-        SlackNotificationPipeline._post_flat_to_slack(flat_item=flat_item)
+        post_flat_to_slack(flat_item=flat_item)
         # THEN no exception was thrown
