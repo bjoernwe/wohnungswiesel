@@ -42,8 +42,8 @@ class StadtHausSpider(scrapy.Spider):
         rooms = float(s.xpath('.//div[contains(@class, "woh-zimmer")]/text()').get().split()[0].replace(',', '.'))
         address = ', '.join(s.xpath('.//div[contains(@id, "woh-adresse")]/div/text()').getall()[:3])
         district = s.xpath('.//div[contains(@id, "woh-adresse")]/div/text()').getall()[3]
-        rent_cold = parse_euro(s.xpath('.//div[contains(@class, "nettokaltmiete")]/div[2]/text()').get())
-        rent_total = parse_euro(s.xpath('.//div[contains(@class, "gesamtmiete")]/div[2]/text()').get())
+        rent_cold = parse_euro(s.xpath('.//div[contains(@class, "nettokaltmiete")]/div[2]/text()').get().replace(' ', ''))
+        rent_total = parse_euro(s.xpath('.//div[contains(@class, "gesamtmiete")]/div[2]/text()').get().replace(' ', ''))
         image_urls = [s.xpath('.//img/@src').get()]
         flat = FlatItem(id=flat_id, agency=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, rent_total=rent_total,
