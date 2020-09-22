@@ -10,12 +10,21 @@ class FlatFilterPipeline:
         '#städtische': FlatFilter(
             agencies=['degewo', 'gewobag', 'stadt-und-land', 'wbm'],
             rooms=(2, None),
-            wbm_required=False
+            wbs_required=False
         ),
         '#wg-geeignet': FlatFilter(
             rooms=(4, None),
-            wbm_required=False
-        )
+            wbs_required=False
+        ),
+        #'#test': FlatFilter(
+        #    agencies=[
+                #'degewo',
+                'gewobag',
+                #'stadt-und-land',
+                #'wbm'
+        #    ],
+        #    wbs_required=None
+        #),
     }
 
     def __init__(self):
