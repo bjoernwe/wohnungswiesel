@@ -19,7 +19,7 @@ class FlatFilterPipeline:
         #'#test': FlatFilter(
         #    agencies=[
                 #'degewo',
-                'gewobag',
+                #'gewobag',
                 #'stadt-und-land',
                 #'wbm'
         #    ],
