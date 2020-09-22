@@ -39,7 +39,7 @@ class DegewoSpider(scrapy.Spider):
         'rooms_from': 1,
         'rooms_to': 6,
         #'features[]': '1, 13',
-        'wbs_required': 0,
+        #'wbs_required': 0,
         #'order': 'rent_total_without_vat_asc'
     }
 
@@ -76,6 +76,7 @@ class DegewoSpider(scrapy.Spider):
             flat_args['rent_cold'] = parse_euro(flat_dict['rent_cold'])
             flat_args['rent_total'] = parse_euro(flat_dict['rent_total_with_vat'])
             flat_args['rooms'] = int(flat_args['rooms'].split()[0])
+            flat_args['wbs_required'] = flat_dict['wbs_required']
             flat_item = FlatItem(**flat_args)
             yield flat_item
 

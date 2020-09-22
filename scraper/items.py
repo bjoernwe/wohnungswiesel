@@ -23,4 +23,4 @@ class FlatItem:
     rent_cold: Optional[float] = None
     rent_total: Optional[float] = None
     image_urls: Optional[List[HttpUrl]] = None
-    wbm_required: Optional[bool] = None
+    wbs_required: Optional[bool] = None

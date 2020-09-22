@@ -66,7 +66,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'scraper.pipelines.duplicate_filter.DuplicateFilterPipeline': 300,
-    'scraper.pipelines.slack_notification.SlackNotificationPipeline': 800,
+    'scraper.pipelines.flat_filter.FlatFilterPipeline': 800,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

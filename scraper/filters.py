@@ -10,7 +10,7 @@ class FlatFilter:
 
     agencies: Optional[List[str]] = None
     rooms: Tuple[Optional[int], Optional[int]] = field(default=(None, None))
-    wbm_required: Optional[bool] = None
+    wbs_required: Optional[bool] = None
 
     def is_match(self, flat: FlatItem):
 
@@ -23,8 +23,8 @@ class FlatFilter:
         if self.rooms[1] and flat.rooms > self.rooms[1]:
             return False
 
-        if self.wbm_required is not None and flat.wbm_required is not None:
-            if self.wbm_required != flat.wbm_required:
+        if self.wbs_required is not None and flat.wbs_required is not None:
+            if self.wbs_required != flat.wbs_required:
                 return False
 
         return True

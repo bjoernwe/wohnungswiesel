@@ -28,7 +28,7 @@ class GewobagSpider(scrapy.Spider):
             'tempelhof-schoeneberg-schoeneberg'
         ],
         'nutzungsarten[]': ['wohnung'],
-        'keinwbs': 0
+        'keinwbs': 1
      }
 
     def start_requests(self) -> Iterable[Request]:
@@ -50,9 +50,9 @@ class GewobagSpider(scrapy.Spider):
         rooms = s.xpath('.//li[contains(@class, "angebot-area")]/strong/text()').get().split(' | ')[0].split()[0]
         address = s.xpath('.//address/text()').get().strip().split('/')[0]
         district = s.xpath('.//address/text()').get().strip().split('/')[1]
-        #rent_cold =
         rent_total = parse_euro(s.xpath('.//li[contains(@class, "angebot-kosten")]/strong/text()').get())
         image_urls = s.xpath('.//section[contains(@class, "angebot-slider")]//img/@src').getall()
         flat = FlatItem(id=flat_id, agency=self.name, link=link, title=title, size=size, rooms=rooms,
-                        address=address, district=district, rent_total=rent_total, image_urls=image_urls)
+                        address=address, district=district, rent_total=rent_total, image_urls=image_urls,
+                        wbs_required=False)
         return flat
