@@ -3,7 +3,7 @@
 import re
 
 
-re_qm = r'(\d+[.,]?\d*)\s*(qm|m2|m²)'
+re_qm = r'(\d+[.,]?\d*)\s*(qm|m2|m²|m)'
 re_euro = r'([\d.]+[,]?\d*)\s*(€|Euro|Eur)'
 
 
