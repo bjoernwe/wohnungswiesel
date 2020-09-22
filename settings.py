@@ -41,20 +41,23 @@ AUTOTHROTTLE_ENABLED = True
 
 
 SLACK_CHANNELS_FILTERS = {
-        '#all_flats': {},
-        '#städtische': {
-            'agencies': ['degewo', 'gewobag', 'stadt-und-land', 'wbm'],
-            'rooms': (2, None),
-            'wbs_required': False
-        },
-        '#wg-geeignet': {
-            'rooms': (4, None),
-            'wbs_required': False
-        },
-        '#test': {
-            'agencies': ['tki'],
-        },
-    }
+    '#all_flats': {},
+    '#städtische': {
+        'agencies': ['degewo', 'gewobag', 'stadt-und-land', 'wbm'],
+        'rooms': (2, None),
+        'wbs_required': False
+    },
+    '#wg-geeignet': {
+        'rooms': (4, None),
+        'wbs_required': False
+    },
+    '#tki': {
+        'agencies': ['tki'],
+    },
+    '#test': {
+        'agencies': ['tki'],
+    },
+}
 
 
 FEEDS = {
