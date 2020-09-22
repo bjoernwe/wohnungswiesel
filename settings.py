@@ -42,20 +42,24 @@ AUTOTHROTTLE_ENABLED = True
 
 SLACK_CHANNELS_FILTERS = {
     '#all_flats': {},
+    '#big': {
+        'rooms': (5, None),
+        'wbs_required': False
+    },
     '#städtische': {
         'agencies': ['degewo', 'gewobag', 'stadt-und-land', 'wbm'],
         'rooms': (2, None),
         'wbs_required': False
     },
+    '#tki': {
+        'agencies': ['tki'],
+    },
     '#wg-geeignet': {
         'rooms': (4, None),
         'wbs_required': False
     },
-    '#tki': {
-        'agencies': ['tki'],
-    },
     '#test': {
-        'agencies': ['ado'],
+        'agencies': ['immoscout'],
     },
 }
 

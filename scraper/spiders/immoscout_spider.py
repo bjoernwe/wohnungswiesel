@@ -7,12 +7,22 @@ from scrapy.http import TextResponse
 from typing import Iterable, Optional
 
 from scraper.items import FlatItem
-from utils.parsers import parse_euro
 
 
-class ImmoAdoSpider(scrapy.Spider):
+class ImmoscoutSpider(scrapy.Spider):
 
-    name = "ado"
+    name = "immoscout"
+
+    _realtors = {
+        'ado':                  ('1600797134665', 'a625521eb5a410e8f57cc'),
+        'claudia_koehn':        ('1600799502004', 'ac75d7b78eded13d11d'),
+        'gesobau':              ('1600800319663', 'a11c223a99f96571de5'),
+        'homes_and_service':    ('1600799498871', 'afea67b90e71d7562a2aa8a'),
+        'immo_next':            ('1600799509269', 'ae81f6ec5468cd9'),
+        'stadt_und_land':       ('1600799453223', 'a92a678d73456eed04d'),
+        'stuck_und_fuetting':   ('1600799504774', 'a5532d12e73740bb09b85'),
+        'wbm':                  ('1600799567329', 'a97efe8583d1da8'),
+    }
 
     _request_url = 'https://www.immobilienscout24.de/anbieter/api/branchenbuch/v1.0/realestates'
 
@@ -20,14 +30,18 @@ class ImmoAdoSpider(scrapy.Spider):
         'pageNumber': 1,
         'pageSize': 500,
         'offerType': 'RENT',
-        'encryptedRealtorId': 'a625521eb5a410e8f57cc',
-        'i': '1600797134665'
+        'i': None,
+        'encryptedRealtorId': None,
     }
 
     def start_requests(self) -> Iterable[Request]:
-        query_args = urllib.parse.urlencode(self._query_params, doseq=True)
-        url = f'{self._request_url}?{query_args}'
-        yield scrapy.Request(url=url, callback=self.parse)
+        for name, (immo_id, encrypted_id) in self._realtors.items():
+            query_params = dict(self._query_params)
+            query_params['i'] = immo_id
+            query_params['encryptedRealtorId'] = encrypted_id
+            query_args = urllib.parse.urlencode(query_params)
+            url = f'{self._request_url}?{query_args}'
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response: TextResponse, **kwargs) -> FlatItem:
         for result in json.loads(response.text)['realEstates']:
@@ -39,7 +53,7 @@ class ImmoAdoSpider(scrapy.Spider):
             return
         flat_id = d['realEstateId']
         link = f'https://www.immobilienscout24.de/expose/{flat_id}/'
-        title = f'Immo ADO Wohnung {flat_id}'
+        title = f'ImmoScout {flat_id}'
         size = d['address']['area']
         rooms = d['numberOfRooms']
         address = f'{d["address"]["street"]} {d["address"]["houseNumber"]}, {d["address"]["postalCode"]} {d["address"]["city"]}'
