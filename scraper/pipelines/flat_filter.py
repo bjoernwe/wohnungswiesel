@@ -33,5 +33,5 @@ class FlatFilterPipeline:
     def process_item(self, item, spider) -> FlatItem:
         for channel, flat_filter in self._c2f.c2f.items():
             if flat_filter.is_match(flat=item):
-                post_flat_to_slack(flat_item=item, channel=channel)
+                post_flat_to_slack(flat=item, channel=channel)
         return item

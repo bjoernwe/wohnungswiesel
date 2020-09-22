@@ -17,6 +17,8 @@ def parse_qm(s: str) -> float:
 
 
 def parse_euro(s: str) -> float:
+    if s is None:
+        return None
     matches = re.search(re_euro, s, re.IGNORECASE)
     if not matches:
         raise ValueError(f'Could not parse Euro: {s}')

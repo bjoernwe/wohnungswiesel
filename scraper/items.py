@@ -18,7 +18,7 @@ class FlatItem:
     link: HttpUrl
     size: float
     rooms: float
-    address: str
+    address: Optional[str]
     district: Optional[str]
     rent_cold: Optional[float] = None
     rent_total: Optional[float] = None
