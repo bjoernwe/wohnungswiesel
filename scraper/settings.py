@@ -13,7 +13,7 @@ BOT_NAME = 'wohnungswiesel'
 
 SPIDER_MODULES = ['scraper.spiders']
 
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'ERROR'
 LOG_FILE = './log/logging.log'
 
 
@@ -27,6 +27,12 @@ ITEM_PIPELINES = {
     'scraper.pipelines.duplicate_filter.DuplicateFilterPipeline': 300,
     'scraper.pipelines.flat_filter.FlatFilterPipeline': 800,
 }
+
+
+SPIDER_MIDDLEWARES = {
+    'scraper.middlewares.SlackExceptionNotificationMiddleware': 543,
+}
+
 
 
 # Enable and configure the AutoThrottle extension (disabled by default)

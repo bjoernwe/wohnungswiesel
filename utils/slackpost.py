@@ -3,13 +3,17 @@ import os
 from itemadapter import ItemAdapter
 from slack import WebClient
 from slack.errors import SlackApiError
-from typing import Optional
+from typing import Optional, List
 
 from scraper.items import FlatItem
 
 
+def post_markdown_to_slack(text: str, channel: str):
+    block = _generate_markdown_block(text=text)
+    _send_blocks_to_slack(blocks=[block], channel=channel)
+
+
 def post_flat_to_slack(flat_item: FlatItem, channel: str):
-    slack = WebClient(token=os.environ['SLACK_API_TOKEN'])
 
     flat = ItemAdapter(flat_item)
     rent = f"{int(flat['rent_total'])} (warm) €" if flat['rent_total'] else f"{int(flat['rent_cold'])} €"
@@ -24,15 +28,7 @@ def post_flat_to_slack(flat_item: FlatItem, channel: str):
     thumbnail_url = flat['image_urls'][0] if flat['image_urls'] else None
 
     block = _generate_markdown_block(text=description, image_url=thumbnail_url)
-
-    try:
-        slack.chat_postMessage(
-            channel=channel,
-            blocks=[block],
-            icon_url='https://i.imgur.com/OkldsAZ.jpg'
-        )
-    except SlackApiError as e:
-        print(f"Got an error: {e.response['error']}")
+    _send_blocks_to_slack(blocks=[block], channel=channel)
 
 
 def _generate_markdown_block(text: str, image_url: Optional[str] = None) -> dict:
@@ -50,3 +46,15 @@ def _generate_markdown_block(text: str, image_url: Optional[str] = None) -> dict
             "alt_text": "Preview"
         }
     return block
+
+
+def _send_blocks_to_slack(blocks: List[dict], channel: str, icon_url: str = 'https://i.imgur.com/OkldsAZ.jpg'):
+    slack = WebClient(token=os.environ['SLACK_API_TOKEN'])
+    try:
+        slack.chat_postMessage(
+            channel=channel,
+            blocks=blocks,
+            icon_url=icon_url
+        )
+    except SlackApiError as e:
+        print(f"Got an error: {e.response['error']}")
