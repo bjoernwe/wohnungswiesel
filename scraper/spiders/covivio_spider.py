@@ -1,5 +1,4 @@
 import json
-import logging
 import scrapy
 import urllib
 import urllib.parse
@@ -9,9 +8,6 @@ from scrapy.http import TextResponse
 from typing import Iterable
 
 from scraper.items import FlatItem
-
-
-log = logging.getLogger('covivio_spider')
 
 
 class CovivioSpider(scrapy.Spider):
@@ -59,7 +55,6 @@ class CovivioSpider(scrapy.Spider):
     def parse(self, response: TextResponse):
         objects = json.loads(response.text)
         for obj in objects:
-            log.debug(f'found raw item: {obj}')
             flat_args = {k_out: obj[k_in] for k_in, k_out in self._map_to_flat.items()}
             flat_args['agency'] = 'covivio'
             flat_args['title'] = obj['title']['rendered']

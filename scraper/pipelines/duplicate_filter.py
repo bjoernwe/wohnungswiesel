@@ -6,7 +6,6 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-import logging
 import pathlib
 import pickle
 import time
@@ -16,9 +15,6 @@ from scrapy.exceptions import DropItem
 from threading import RLock
 
 from scraper.items import FlatItem
-
-
-log = logging.getLogger('duplicate_filter_pipeline')
 
 
 class DuplicateFilterPipeline:

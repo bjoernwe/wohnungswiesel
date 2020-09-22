@@ -1,5 +1,4 @@
 import json
-import logging
 import scrapy
 import urllib
 import urllib.parse
@@ -10,8 +9,6 @@ from typing import Iterable
 
 from scraper.items import FlatItem
 from utils.parsers import parse_euro
-
-log = logging.getLogger('degewo_spider')
 
 
 class DegewoSpider(scrapy.Spider):
@@ -66,7 +63,6 @@ class DegewoSpider(scrapy.Spider):
     def parse(self, response: TextResponse, **kwargs):
         response_json = json.loads(response.text)
         for flat_dict in response_json['immos']:
-            log.debug(f'found raw item: {flat_dict}')
             flat_args = {k_out: flat_dict[k_in] for k_in, k_out in self._map_to_flat.items()}
             flat_args['agency'] = 'degewo'
             flat_args['link'] = response.urljoin(flat_dict['property_path'])

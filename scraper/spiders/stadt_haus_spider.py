@@ -1,4 +1,3 @@
-import logging
 import scrapy
 import urllib
 import urllib.parse
@@ -9,8 +8,6 @@ from typing import Iterable
 
 from scraper.items import FlatItem
 from utils.parsers import parse_qm, parse_euro
-
-log = logging.getLogger('stadt_haus_spider')
 
 
 class StadtHausSpider(scrapy.Spider):

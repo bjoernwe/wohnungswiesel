@@ -13,6 +13,9 @@ BOT_NAME = 'wohnungswiesel'
 
 SPIDER_MODULES = ['scraper.spiders']
 
+LOG_LEVEL = 'INFO'
+LOG_FILE = './log/logging.log'
+
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -50,7 +53,7 @@ SLACK_CHANNELS_FILTERS = {
 
 
 FEEDS = {
-    '~/.wohnungswiesel/all_items.jsonl': {
+    './log/all_items.jsonl': {
         'format': 'jsonlines'
     }
 }

@@ -1,16 +1,10 @@
-import logging
 import scrapy
-import urllib
-import urllib.parse
 
-from scrapy import Request, Selector
+from scrapy import Selector
 from scrapy.http import TextResponse
-from typing import Iterable
 
 from scraper.items import FlatItem
-from utils.parsers import parse_qm, parse_euro
-
-log = logging.getLogger('stadt_und_land_spider')
+from utils.parsers import parse_euro
 
 
 class StadtUndLandSpider(scrapy.Spider):
