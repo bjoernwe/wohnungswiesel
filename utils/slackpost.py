@@ -8,7 +8,7 @@ from typing import Optional
 from scraper.items import FlatItem
 
 
-def post_flat_to_slack(flat_item: FlatItem):
+def post_flat_to_slack(flat_item: FlatItem, channel: str):
     slack = WebClient(token=os.environ['SLACK_API_TOKEN'])
 
     flat = ItemAdapter(flat_item)
@@ -27,7 +27,7 @@ def post_flat_to_slack(flat_item: FlatItem):
 
     try:
         slack.chat_postMessage(
-            channel='#new_flats',
+            channel=channel,
             blocks=[block],
             icon_url='https://i.imgur.com/OkldsAZ.jpg'
         )
