@@ -41,26 +41,35 @@ AUTOTHROTTLE_ENABLED = True
 
 
 SLACK_CHANNELS_FILTERS = {
-    '#all_flats': {},
+    '#all_flats': {
+        'zip_range': (10115, 14199),
+    },
     '#big': {
         'rooms': (5, None),
-        'wbs_required': False
+        'wbs_required': False,
+        'zip_range': (10115, 14199),
     },
     '#städtische': {
-        'agencies': ['degewo', 'gewobag', 'stadt-und-land', 'wbm'],
+        'sources': [
+            'degewo', 'gewobag', 'stadt-und-land', 'wbm',
+            'immo/degewo', 'immo/gewobau-1', 'immo/gewobau-2', 'immo/gewobau-3', 'immo/gewobag', 'immo/stadt&land', 'immo/wbm'
+        ],
         'rooms': (2, None),
-        'wbs_required': False
+        'wbs_required': False,
+        'zip_range': (10115, 14199),
     },
     '#tki': {
-        'agencies': ['tki'],
+        'sources': ['tki', 'immo/tki'],
     },
     '#wg-geeignet': {
         'rooms': (4, None),
-        'wbs_required': False
+        'wbs_required': False,
+        'zip_range': (10115, 14199),
     },
-    '#test': {
-        'agencies': ['immoscout'],
-    },
+    #'#test': {
+    #    'sources': ['immo'],
+    #    'zip_range': (10115, 14199),
+    #},
 }
 
 
