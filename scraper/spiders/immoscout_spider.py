@@ -14,8 +14,12 @@ class ImmoscoutSpider(scrapy.Spider):
     name = "immoscout"
 
     _realtors = {
+        '4_rent_and_sale':      ('1600801303985', 'ade62695f24f3dca58b443c'),
         'ado':                  ('1600797134665', 'a625521eb5a410e8f57cc'),
+        'carolin_weiss':        ('1600801203632', 'a76ce930e46c42a8975'),
         'claudia_koehn':        ('1600799502004', 'ac75d7b78eded13d11d'),
+        'cramer_immobilien':    ('1600801252615', 'aa38aca9696dfe2b61a'),
+        'eb':                   ('1600801368708', 'a4f284f473b53cc1765'),
         'gesobau':              ('1600800319663', 'a11c223a99f96571de5'),
         'homes_and_service':    ('1600799498871', 'afea67b90e71d7562a2aa8a'),
         'immo_next':            ('1600799509269', 'ae81f6ec5468cd9'),
