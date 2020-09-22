@@ -10,16 +10,16 @@ from scraper.items import FlatItem
 @dataclass
 class FlatFilter:
 
-    agencies: Optional[List[str]] = None
+    sources: Optional[List[str]] = None
     rooms: Tuple[Optional[int], Optional[int]] = field(default=(None, None))
     wbs_required: Optional[bool] = None
     zip_range: Tuple[Optional[int], Optional[int]] = field(default=(None, None))
 
     def is_match(self, flat: FlatItem):
 
-        # Agency
+        # Sources
 
-        if self.agencies and True not in [flat.agency.startswith(agn) for agn in self.agencies]:
+        if self.sources and True not in [flat.source.startswith(src) for src in self.sources]:
             return False
 
         # Rooms

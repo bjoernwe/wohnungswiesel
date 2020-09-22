@@ -47,7 +47,7 @@ class TkiSpider(scrapy.Spider):
         district = ''.join(s.xpath('.//div[contains(@class, "dataort")]/text()').getall()).replace('\n', '').strip()
         rent_cold = parse_euro(s.xpath('.//ul[contains(@class, "prices")]/li/span/text()').get())
         image_urls = [s.xpath('.//img/@src').get()]
-        flat = FlatItem(id=flat_id, agency=self.name, link=link, title=title, size=size, rooms=rooms,
+        flat = FlatItem(id=flat_id, source=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, image_urls=image_urls,
                         wbs_required=False)
         return flat

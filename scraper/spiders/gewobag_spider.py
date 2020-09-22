@@ -49,7 +49,7 @@ class GewobagSpider(scrapy.Spider):
         district = s.xpath('.//address/text()').get().strip().split('/')[1]
         rent_total = parse_euro(s.xpath('.//li[contains(@class, "angebot-kosten")]/strong/text()').get())
         image_urls = s.xpath('.//section[contains(@class, "angebot-slider")]//img/@src').getall()
-        flat = FlatItem(id=flat_id, agency=self.name, link=link, title=title, size=size, rooms=rooms,
+        flat = FlatItem(id=flat_id, source=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_total=rent_total, image_urls=image_urls,
                         wbs_required=False)
         return flat

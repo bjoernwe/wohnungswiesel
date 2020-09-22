@@ -70,8 +70,8 @@ class ImmoscoutSpider(scrapy.Spider):
         rent_cold = d['price']
         image_url = d['pictureUrl']
         image_urls = [image_url] if image_url else None
-        agency_name = f'{self.name}/{realtor}'
-        flat = FlatItem(id=flat_id, agency=agency_name, link=link, title=title, size=size, rooms=rooms,
+        source_name = f'{self.name}/{realtor}'
+        flat = FlatItem(id=flat_id, source=source_name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, image_urls=image_urls,
                         wbs_required=False)
         return flat

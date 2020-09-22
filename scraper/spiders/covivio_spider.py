@@ -56,7 +56,7 @@ class CovivioSpider(scrapy.Spider):
         objects = json.loads(response.text)
         for obj in objects:
             flat_args = {k_out: obj[k_in] for k_in, k_out in self._map_to_flat.items()}
-            flat_args['agency'] = 'covivio'
+            flat_args['source'] = 'covivio'
             flat_args['title'] = obj['title']['rendered']
             flat_args['image_urls'] = [img['url'] for img in obj['bilder']]
             flat_item = FlatItem(**flat_args)

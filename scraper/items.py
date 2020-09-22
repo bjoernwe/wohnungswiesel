@@ -13,7 +13,7 @@ from typing import List, Optional
 @dataclass
 class FlatItem:
     id: str
-    agency: str
+    source: str
     title: str
     link: HttpUrl
     size: float

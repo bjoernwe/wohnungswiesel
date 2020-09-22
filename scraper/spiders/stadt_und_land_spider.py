@@ -31,7 +31,7 @@ class StadtUndLandSpider(scrapy.Spider):
         rent_cold = parse_euro(s.xpath('.//tr//th[contains(., "Kaltmiete:")]/../td/text()').get())
         rent_total = parse_euro(s.xpath('.//tr//th[contains(., "Warmmiete:")]/../td/text()').get())
         image_urls = [response.urljoin(url) for url in s.xpath('.//ul[contains(@class, "SP-MiniGallery__list")]//a/@href').getall()]
-        flat = FlatItem(id=flat_id, agency=self.name, link=link, title=title, size=size, rooms=rooms,
+        flat = FlatItem(id=flat_id, source=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, rent_total=rent_total,
                         image_urls=image_urls)
         return flat
