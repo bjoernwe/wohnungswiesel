@@ -55,7 +55,7 @@ SLACK_CHANNELS_FILTERS = {
         'agencies': ['tki'],
     },
     '#test': {
-        'agencies': ['tki'],
+        'agencies': ['ado'],
     },
 }
 
