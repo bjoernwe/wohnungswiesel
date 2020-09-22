@@ -18,11 +18,37 @@ class FlatFilter:
     def is_match(self, flat: FlatItem):
 
         # Sources
-
-        if self.sources and True not in [flat.source.startswith(src) for src in self.sources]:
+        if not self._has_matching_source(flat):
             return False
 
         # Rooms
+        if not self._has_matching_number_of_rooms(flat):
+            return False
+
+        # WBS
+        if not self._has_matching_wbs_requirement(flat):
+            return False
+
+        # ZIP
+        if not self._has_matching_zip_range(flat):
+            return False
+
+        return True
+
+    def _has_matching_source(self, flat: FlatItem) -> bool:
+
+        if not self.sources or not flat.source:
+            return True
+
+        matches = [flat.source.startswith(src) for src in self.sources]
+        has_matching_source = True in matches
+
+        return has_matching_source
+
+    def _has_matching_number_of_rooms(self, flat: FlatItem) -> bool:
+
+        if not flat.rooms:
+            return True
 
         rooms_min = self.rooms[0]
         rooms_max = self.rooms[1]
@@ -33,23 +59,33 @@ class FlatFilter:
         if rooms_max and flat.rooms > rooms_max:
             return False
 
-        # WBS
+        return True
 
-        if self.wbs_required is not None and flat.wbs_required is not None:
-            if self.wbs_required != flat.wbs_required:
-                return False
+    def _has_matching_wbs_requirement(self, flat: FlatItem) -> bool:
 
-        # ZIP
+        if not self.wbs_required or not flat.wbs_required:
+            return True
+
+        if self.wbs_required != flat.wbs_required:
+            return False
+
+        return True
+
+    def _has_matching_zip_range(self, flat: FlatItem) -> bool:
 
         zip_min = self.zip_range[0]
         zip_max = self.zip_range[1]
 
-        if zip_min or zip_max:
-            zip_code = self._extract_zip(flat.address)
-            if zip_min and zip_code < zip_min:
-                return False
-            if zip_max and zip_code > zip_max:
-                return False
+        if not zip_min and not zip_max:
+            return True
+
+        zip_code = self._extract_zip(flat.address)
+
+        if zip_min and zip_code < zip_min:
+            return False
+
+        if zip_max and zip_code > zip_max:
+            return False
 
         return True
 
