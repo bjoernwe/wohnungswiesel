@@ -19,7 +19,7 @@ class FlatFilter:
 
         # Agency
 
-        if self.agencies and flat.agency not in self.agencies:
+        if self.agencies and True not in [flat.agency.startswith(agn) for agn in self.agencies]:
             return False
 
         # Rooms
