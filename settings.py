@@ -51,10 +51,9 @@ SLACK_CHANNELS_FILTERS = {
             'rooms': (4, None),
             'wbs_required': False
         },
-        #'#test': {
-        #    'agencies': ['degewo', 'gewobag', 'stadt-und-land', 'wbm'],
-        #    'wbs_required': None
-        #},
+        '#test': {
+            'agencies': ['tki'],
+        },
     }
 
 

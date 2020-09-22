@@ -7,6 +7,7 @@ from scraper.spiders.gcp_spider import GcpSpider
 from scraper.spiders.gewobag_spider import GewobagSpider
 from scraper.spiders.stadt_haus_spider import StadtHausSpider
 from scraper.spiders.stadt_und_land_spider import StadtUndLandSpider
+from scraper.spiders.tki_spider import TkiSpider
 
 
 def main():
@@ -17,6 +18,7 @@ def main():
     process.crawl(GewobagSpider)
     process.crawl(StadtHausSpider)
     process.crawl(StadtUndLandSpider)
+    process.crawl(TkiSpider)
     process.start()
 
 
