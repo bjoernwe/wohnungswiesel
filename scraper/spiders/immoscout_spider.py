@@ -47,6 +47,7 @@ class ImmoscoutSpider(scrapy.Spider):
         'trad':             'a41e694c1722b8ab0df4d76',
         'trialog':          'add1fed14a906ccdfec00',
         'vonovia':          'a26247b701a53dad2e1',
+        'wacker':           'ad06a23e096c015f4b4e5e5',
         'wbm':              'a97efe8583d1da8',
         'zebitz':           'aedf2aff8d2ed18cc303b81',
     }
