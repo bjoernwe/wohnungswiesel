@@ -15,10 +15,11 @@ def post_markdown_to_slack(text: str, channel: str):
 
 def post_flat_to_slack(flat: FlatItem, channel: str):
 
+    source_qualifier = f'/{flat.source_qualifier}' if flat.source_qualifier else ''
     district_str = f"in {flat.district}" if flat.district else ''
 
     description = (
-        f"> <{flat.link}|*{flat.title}*> *[{flat.source}]*\n"
+        f"> <{flat.link}|*{flat.title}*> *[{flat.source + source_qualifier}]*\n"
         f"> {flat.rooms} Zimmer ({flat.size} qm) {district_str}\n"
     )
 

@@ -1,7 +1,7 @@
 from enum import Enum
-from pydantic import HttpUrl
+from pydantic import HttpUrl, validator
 from pydantic.dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Union
 
 
 class FlatSource(str, Enum):
@@ -17,7 +17,7 @@ class FlatSource(str, Enum):
 
 @dataclass
 class FlatItem:
-    id: str
+    id: Union[int, str]
     source: FlatSource
     title: str
     link: HttpUrl
@@ -30,3 +30,11 @@ class FlatItem:
     image_urls: Optional[List[HttpUrl]] = None
     wbs_required: Optional[bool] = None
     source_qualifier: Optional[str] = None
+
+    @validator('image_urls', pre=True)
+    def _normalize_image_urls(cls, v):
+        if not v:
+            return None
+        if not isinstance(v, list):
+            return [v]
+        return v

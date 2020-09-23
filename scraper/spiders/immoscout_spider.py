@@ -2,11 +2,13 @@ import json
 import scrapy
 import urllib.parse
 
+from pydantic import ValidationError
 from scrapy import Request
 from scrapy.http import TextResponse
 from typing import Iterable, Optional
 
 from scraper.items import FlatItem, FlatSource
+from scraper.spiders.immoscout_data import ImmoScoutData, RealEstateType
 
 
 class ImmoscoutSpider(scrapy.Spider):
@@ -54,23 +56,36 @@ class ImmoscoutSpider(scrapy.Spider):
 
     def parse(self, response: TextResponse, realtor: Optional[str] = None) -> FlatItem:
         for result in json.loads(response.text)['realEstates']:
-            flat = self._parse_flat_from_selector(result, response=response, realtor=realtor)
+            flat = self._parse_flat_from_selector(result=result, response=response)
             yield flat
 
-    def _parse_flat_from_selector(self, d: dict, response: TextResponse, realtor: Optional[str] = None) -> Optional[FlatItem]:
-        if d.get('realEstateType') != 'APARTMENT_RENT':
+    def _parse_flat_from_selector(self, result: dict, response: TextResponse, realtor: Optional[str] = None) -> Optional[FlatItem]:
+
+        if result.get('realEstateType') != RealEstateType.apartment_rent:
             return
-        flat_id = d['realEstateId']
-        link = f'https://www.immobilienscout24.de/expose/{flat_id}/'
-        title = f'ImmoScout {flat_id}'
-        size = d['address']['area']
-        rooms = d['numberOfRooms']
-        address = f'{d["address"]["street"]} {d["address"]["houseNumber"]}, {d["address"]["postalCode"]} {d["address"]["city"]}'
-        district = None
-        rent_cold = d['price']
-        image_url = d['pictureUrl']
-        image_urls = [image_url] if image_url else None
-        flat = FlatItem(id=flat_id, source=self.name, source_qualifier=realtor, link=link, title=title, size=size,
-                        rooms=rooms, address=address, district=district, rent_cold=rent_cold, image_urls=image_urls,
-                        wbs_required=False)
+
+        try:
+            data = ImmoScoutData(**result)
+        except ValidationError as e:
+            self.logger.error(msg=f'Error processing {ImmoScoutData.__class__.__name__}: {result}', exc_info=e)
+            raise e
+
+        try:
+            flat = FlatItem(
+                id=data.realEstateId,
+                source=self.name,
+                source_qualifier=realtor,
+                title=f'ImmoScout {data.realEstateId}',
+                link=f'https://www.immobilienscout24.de/expose/{data.realEstateId}/',
+                size=data.address.area,
+                rooms=data.numberOfRooms,
+                address=f'{data.address.street} {data.address.houseNumber}, {data.address.postalCode} {data.address.city}',
+                district=None,
+                rent_cold=data.price,
+                image_urls=data.pictureUrl
+            )
+        except ValidationError as e:
+            self.logger.error(msg=f'Error processing {ImmoScoutData.__class__.__name__} into flat: {data}', exc_info=e)
+            raise e
+
         return flat
