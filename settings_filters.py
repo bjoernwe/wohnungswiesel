@@ -2,6 +2,9 @@ MUNICIPAL_VENDORS = ['degewo', 'gewobag', 'stadt-und-land', 'wbm', 'immo/degewo'
                      'immo/gewobau-3', 'immo/gewobag', 'immo/stadt&land', 'immo/wbm']
 
 
+EXCLUDED_ZIP_CODES = [13086, 13407]
+
+
 SLACK_CHANNELS_FILTERS = {
     '#all_flats': {},
     '#big': {
