@@ -19,7 +19,7 @@ def post_flat_to_slack(flat: FlatItem, channel: str):
     district_str = f"in {flat.district}" if flat.district else ''
 
     description = (
-        f"> <{flat.link}|*{flat.title}*> *[{flat.source + source_qualifier}]*\n"
+        f"> <{flat.link}|*{flat.title}*> *[{flat.source}{source_qualifier}]*\n"
         f"> {flat.rooms} Zimmer ({flat.size} qm) {district_str}\n"
     )
 

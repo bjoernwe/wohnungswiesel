@@ -60,10 +60,10 @@ class ImmoscoutSpider(scrapy.Spider):
 
     def parse(self, response: TextResponse, realtor: Optional[str] = None) -> FlatItem:
         for result in json.loads(response.text)['realEstates']:
-            flat = self._parse_flat_from_selector(result=result, response=response)
+            flat = self._parse_flat_from_selector(result=result, response=response, realtor=realtor)
             yield flat
 
-    def _parse_flat_from_selector(self, result: dict, response: TextResponse, realtor: Optional[str] = None) -> Optional[FlatItem]:
+    def _parse_flat_from_selector(self, result: dict, response: TextResponse, realtor: str) -> Optional[FlatItem]:
 
         if result.get('realEstateType') != RealEstateType.apartment_rent:
             return
