@@ -7,11 +7,14 @@ from typing import List, Optional, Tuple
 from scraper.items import FlatItem
 
 
+BERLIN_ZIP_RANGE = (10115, 14199)
+
+
 @dataclass
 class FlatFilter:
 
     sources: Optional[List[str]] = None
-    rooms: Tuple[Optional[int], Optional[int]] = field(default=(None, None))
+    rooms: Tuple[Optional[int], Optional[int]] = field(default=BERLIN_ZIP_RANGE)
     wbs_required: Optional[bool] = None
     zip_range: Tuple[Optional[int], Optional[int]] = field(default=(None, None))
 
