@@ -5,7 +5,7 @@ BOT_NAME = 'wohnungswiesel'
 SPIDER_MODULES = ['scraper.spiders']
 
 
-LOG_LEVEL = 'ERROR'
+LOG_LEVEL = 'DEBUG'
 LOG_FILE = './log/logging.log'
 
 

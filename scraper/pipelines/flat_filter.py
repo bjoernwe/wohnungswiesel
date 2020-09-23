@@ -1,3 +1,5 @@
+import logging
+
 from pydantic.dataclasses import dataclass
 from scrapy.settings import Settings
 from typing import Dict
@@ -22,6 +24,7 @@ class FlatFilterPipeline:
         return cls(c2f=c2f)
 
     def __init__(self, c2f: ChannelToFilterMap):
+        self.log = logging.getLogger('flat_filter_pipeline')
         self._c2f = c2f
 
     def open_spider(self, spider):
@@ -32,6 +35,8 @@ class FlatFilterPipeline:
 
     def process_item(self, item, spider) -> FlatItem:
         for channel, flat_filter in self._c2f.c2f.items():
-            if flat_filter.is_match(flat=item):
+            is_match = flat_filter.is_match(flat=item)
+            self.log.debug(f'Matching filter {flat_filter} to flat {item}: {is_match}')
+            if is_match:
                 post_flat_to_slack(flat=item, channel=channel)
         return item
