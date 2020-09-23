@@ -3,9 +3,7 @@ MUNICIPAL_VENDORS = ['degewo', 'gewobag', 'stadt-und-land', 'wbm', 'immo/degewo'
 
 
 SLACK_CHANNELS_FILTERS = {
-    '#all_flats': {
-        'zip_range': (None, None),
-    },
+    '#all_flats': {},
     '#big': {
         'rooms': (5, None),
         'wbs_required': False,
