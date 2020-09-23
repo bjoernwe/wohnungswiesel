@@ -12,7 +12,7 @@ def flat_item():
         title='Title',
         size=100,
         rooms=3,
-        address='Hauptstr. 1, Berlin',
+        address='Hauptstr. 1, 12345 Berlin',
         district=None,
         rent_cold=500,
         rent_total=600,
