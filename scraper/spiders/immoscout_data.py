@@ -34,10 +34,10 @@ class ImmoScoutData:
     priceDimension: str
     showAddress: bool
     address: RealEstateAddress
-    coordinates: RealEstateCoordinates
     numberOfRooms: float
     buy: bool
     pictureUrl: Optional[HttpUrl] = None
+    coordinates: Optional[RealEstateCoordinates] = None
     lastDeactivationDate: Optional[float] = None
     rentalStartDate: Optional[float] = None
 
