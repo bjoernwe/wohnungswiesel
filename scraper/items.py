@@ -5,6 +5,7 @@ from typing import List, Optional, Union
 
 
 class FlatSource(str, Enum):
+    test = 'test'
     covivio = 'covivio'
     degewo = 'degewo'
     gcp = 'gcp'

@@ -1,13 +1,13 @@
 import pytest
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, FlatSource
 
 
 @pytest.fixture
 def flat_item():
     return FlatItem(
         id='42',
-        source='Test',
+        source=FlatSource.test,
         link='http://google.com',
         title='Title',
         size=100,
