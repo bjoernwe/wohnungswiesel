@@ -1,4 +1,4 @@
+itemadapter
 pydantic
 pytest
 scrapy
-slackclient

@@ -29,7 +29,7 @@ class DuplicateFilterPipeline:
     def close_spider(self, spider):
         pass
 
-    def process_item(self, item, spider) -> FlatItem:
+    def process_item(self, item, spider=None) -> FlatItem:
         item_adapter = ItemAdapter(item=item)
         if self._is_known_item(item=item_adapter):
             raise DropItem('Item has been processed before.')
