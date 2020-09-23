@@ -3,13 +3,13 @@ import scrapy
 from scrapy import Selector
 from scrapy.http import TextResponse
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, FlatSource
 from utils.parsers import parse_euro
 
 
 class StadtUndLandSpider(scrapy.Spider):
 
-    name = "stadt-und-land"
+    name = FlatSource.stadt_und_land
 
     start_urls = [
         'https://www.stadtundland.de/Mieten/010-Angebote-Bestand.php?form=stadtundland-expose-search-1.form&sp%3AroomsTo%5B%5D=1&action=submit'

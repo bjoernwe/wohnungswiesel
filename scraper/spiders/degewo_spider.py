@@ -7,13 +7,13 @@ from scrapy import Request
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, FlatSource
 from utils.parsers import parse_euro
 
 
 class DegewoSpider(scrapy.Spider):
 
-    name = "degewo"
+    name = FlatSource.degewo
 
     _query_params = {
         'property_type_id': 1,
@@ -64,7 +64,7 @@ class DegewoSpider(scrapy.Spider):
         response_json = json.loads(response.text)
         for flat_dict in response_json['immos']:
             flat_args = {k_out: flat_dict[k_in] for k_in, k_out in self._map_to_flat.items()}
-            flat_args['source'] = 'degewo'
+            flat_args['source'] = self.name
             flat_args['link'] = response.urljoin(flat_dict['property_path'])
             flat_args['image_urls'] = [flat_dict['thumb_url']]
             flat_args['address'] = ', '.join([s.strip() for s in flat_dict['full_address'].split('|')])

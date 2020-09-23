@@ -6,12 +6,12 @@ from scrapy import Request
 from scrapy.http import TextResponse
 from typing import Iterable, Optional
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, FlatSource
 
 
 class ImmoscoutSpider(scrapy.Spider):
 
-    name = "immo"
+    name = FlatSource.immo
 
     _realtors = {
         '4r&s':             'ade62695f24f3dca58b443c',
@@ -70,8 +70,7 @@ class ImmoscoutSpider(scrapy.Spider):
         rent_cold = d['price']
         image_url = d['pictureUrl']
         image_urls = [image_url] if image_url else None
-        source_name = f'{self.name}/{realtor}'
-        flat = FlatItem(id=flat_id, source=source_name, link=link, title=title, size=size, rooms=rooms,
-                        address=address, district=district, rent_cold=rent_cold, image_urls=image_urls,
+        flat = FlatItem(id=flat_id, source=self.name, source_qualifier=realtor, link=link, title=title, size=size,
+                        rooms=rooms, address=address, district=district, rent_cold=rent_cold, image_urls=image_urls,
                         wbs_required=False)
         return flat

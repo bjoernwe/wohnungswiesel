@@ -6,13 +6,13 @@ from scrapy import Request, Selector
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, FlatSource
 from utils.parsers import parse_qm, parse_euro
 
 
 class GewobagSpider(scrapy.Spider):
 
-    name = "gewobag"
+    name = FlatSource.gewobag
 
     _query_params = {
         'bezirke[]': [

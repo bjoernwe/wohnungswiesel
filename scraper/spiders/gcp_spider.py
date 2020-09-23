@@ -4,13 +4,13 @@ from scrapy import Request, Selector
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, FlatSource
 from utils.parsers import parse_qm
 
 
 class GcpSpider(scrapy.Spider):
 
-    name = "gcp"
+    name = FlatSource.gcp
 
     _request_url = 'https://www.grandcityproperty.de/real-estate-ajax?language=de'
 

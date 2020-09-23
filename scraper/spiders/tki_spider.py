@@ -5,13 +5,13 @@ from scrapy import Request, Selector
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, FlatSource
 from utils.parsers import parse_euro
 
 
 class TkiSpider(scrapy.Spider):
 
-    name = "tki"
+    name = FlatSource.tki
 
     _request_url = 'https://tki.berlin/immobilien/'
 
