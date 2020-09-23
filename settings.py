@@ -1,28 +1,18 @@
-# -*- coding: utf-8 -*-
+from settings_filters import SLACK_CHANNELS_FILTERS
 
-# Scrapy settings for tutorial project
-#
-# For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
-#
-#     https://docs.scrapy.org/en/latest/topics/settings.html
-#     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 BOT_NAME = 'wohnungswiesel'
-
 SPIDER_MODULES = ['scraper.spiders']
+
 
 LOG_LEVEL = 'ERROR'
 LOG_FILE = './log/logging.log'
 
 
-# Obey robots.txt rules
 ROBOTSTXT_OBEY = True
+AUTOTHROTTLE_ENABLED = True
 
 
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'scraper.pipelines.duplicate_filter.DuplicateFilterPipeline': 300,
     'scraper.pipelines.flat_filter.FlatFilterPipeline': 800,
@@ -31,42 +21,6 @@ ITEM_PIPELINES = {
 
 SPIDER_MIDDLEWARES = {
     'scraper.middlewares.SlackExceptionNotificationMiddleware': 543,
-}
-
-
-
-# Enable and configure the AutoThrottle extension (disabled by default)
-# See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-AUTOTHROTTLE_ENABLED = True
-
-
-MUNICIPAL_VENDORS = ['degewo', 'gewobag', 'stadt-und-land', 'wbm', 'immo/degewo', 'immo/gewobau-1', 'immo/gewobau-2',
-                     'immo/gewobau-3', 'immo/gewobag', 'immo/stadt&land', 'immo/wbm']
-
-SLACK_CHANNELS_FILTERS = {
-    '#all_flats': {
-        'zip_range': (None, None),
-    },
-    '#big': {
-        'rooms': (5, None),
-        'wbs_required': False,
-    },
-    '#municipal': {
-        'sources': MUNICIPAL_VENDORS,
-        'rooms': (2, None),
-        'wbs_required': False,
-    },
-    '#tki': {
-        'sources': ['tki', 'immo/tki'],
-    },
-    '#wg-geeignet': {
-        'rooms': (4, None),
-        'wbs_required': False,
-    },
-    #'#test': {
-    #    'sources': ['immo'],
-    #    'zip_range': (10115, 14199),
-    #},
 }
 
 
