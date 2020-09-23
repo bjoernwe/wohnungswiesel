@@ -98,7 +98,7 @@ class FlatFilter:
         if not address:
             return None
 
-        matches = re.search(r'(\d{5})', address)
+        matches = re.search(r'(\d{4,5})', address)
 
         if not matches:
             return None
