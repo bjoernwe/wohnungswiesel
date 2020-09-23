@@ -15,12 +15,12 @@ SLACK_CHANNELS_FILTERS = {
         'rooms': (2, None),
         'wbs_required': False,
     },
-    '#tki': {
-        'sources': ['tki', 'immo/tki'],
-    },
-    '#wg-geeignet': {
+    '#sharable': {
         'rooms': (4, None),
         'wbs_required': False,
+    },
+    '#tki': {
+        'sources': ['tki', 'immo/tki'],
     },
     #'#test': {
     #    'sources': ['immo'],
