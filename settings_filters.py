@@ -5,7 +5,7 @@ MUNICIPAL_VENDORS = ['degewo', 'gewobag', 'stadt-und-land', 'wbm', 'immo/degewo'
                      'immo/gewobau-3', 'immo/gewobag', 'immo/stadt&land', 'immo/wbm']
 
 
-EXCLUDED_ZIP_CODES = [10409, 12309, 13086, 13407]
+EXCLUDED_ZIP_CODES = [10409, 12309, 13086, 13405, 13407, 13627]
 
 
 SLACK_CHANNELS_FILTERS = {
