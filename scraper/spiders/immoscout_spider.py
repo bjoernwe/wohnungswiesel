@@ -18,6 +18,8 @@ class ImmoscoutSpider(scrapy.Spider):
     _realtors = {
         '4r&s':             'ade62695f24f3dca58b443c',
         'ado':              'a625521eb5a410e8f57cc',
+        'ajs':              'a71914fc943a00e35f3e7f3',
+        'berlinhaus':       'a1413c71bfaf8155d53b180',
         'carolin_weiss':    'a76ce930e46c42a8975',
         'claudia_koehn':    'ac75d7b78eded13d11d',
         'cramer':           'aa38aca9696dfe2b61a',
@@ -30,10 +32,12 @@ class ImmoscoutSpider(scrapy.Spider):
         'gewobag':          'a54af8451045fd1',
         'homes&service':    'afea67b90e71d7562a2aa8a',
         'immo_next':        'ae81f6ec5468cd9',
+        'immohold':         'a9fb2eb8829bc560909',
         'stadt&land':       'a92a678d73456eed04d',
         'stuck&fuetting':   'a5532d12e73740bb09b85',
         'tki':              'a2e90a5aaf2ba013e406d9e',
         'wbm':              'a97efe8583d1da8',
+        'zebitz':           'aedf2aff8d2ed18cc303b81',
     }
 
     _request_url = 'https://www.immobilienscout24.de/anbieter/api/branchenbuch/v1.0/realestates'
