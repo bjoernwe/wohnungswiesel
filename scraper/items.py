@@ -39,3 +39,34 @@ class FlatItem:
         if not isinstance(v, list):
             return [v]
         return v
+
+    def get_rent(self, prefer_total=True) -> Optional[float]:
+
+        if not self.rent_cold and not self.rent_total:
+            return False
+
+        if prefer_total:
+
+            if self.rent_total:
+                return self.rent_total
+            else:
+                return self.rent_cold
+
+        else:
+
+            if self.rent_cold:
+                return self.rent_cold
+            else:
+                return self.rent_total
+
+    def get_price_per_room(self) -> Optional[float]:
+
+        if self.rooms is None:
+            return
+
+        rent = self.get_rent()
+
+        if not rent:
+            return
+
+        return rent / self.rooms
