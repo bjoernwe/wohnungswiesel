@@ -16,18 +16,18 @@ def post_markdown_to_slack(text: str, channel: str):
 def post_flat_to_slack(flat: FlatItem, channel: str):
 
     source_qualifier = f'/{flat.source_qualifier}' if flat.source_qualifier else ''
-    district_str = f"in {flat.district}" if flat.district else ''
 
     description = (
         f"> <{flat.link}|*{flat.title}*> *[{flat.source}{source_qualifier}]*\n"
-        f"> {flat.rooms} Zimmer ({flat.size} qm) {district_str}\n"
+        f"> {flat.rooms} Zimmer / ({flat.size} qm)\n"
     )
 
-    if flat.address:
-        description += f"> <https://maps.google.com/?q={flat.address}|{flat.address}>\n"
+    address = _get_address(flat=flat)
+    if address:
+        description += address
 
     rent = _get_rent(flat)
-    description += f"> Miete: {rent}"
+    description += f"> Miete: {rent} / {flat.get_price_per_room()} €/room"
 
     thumbnail_url = flat.image_urls[0] if flat.image_urls else None
 
@@ -64,7 +64,23 @@ def _send_blocks_to_slack(blocks: List[dict], channel: str, icon_url: str = 'htt
         print(f"Got an error: {e.response['error']}")
 
 
-def _get_rent(flat:FlatItem) -> str:
+def _get_address(flat: FlatItem) -> Optional[str]:
+
+    parts = []
+
+    if flat.address:
+        parts.append(f'> <https://maps.google.com/?q={flat.address}|{flat.address}>')
+
+    if flat.district:
+        parts.append(f' {flat.district}')
+
+    address = ''.join(parts)
+
+    if address:
+        return address + '\n'
+
+
+def _get_rent(flat: FlatItem) -> str:
 
     if flat.rent_cold is None and flat.rent_total is None:
         return '[n/a]'
