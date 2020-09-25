@@ -5,7 +5,7 @@ MUNICIPAL_VENDORS = ['degewo', 'gewobag', 'stadt-und-land', 'wbm', 'immo/degewo'
                      'immo/gewobau-3', 'immo/gewobag', 'immo/stadt&land', 'immo/wbm']
 
 
-EXCLUDED_ZIP_CODES = [10409, 12309, 13086, 13405, 13407, 13627]
+EXCLUDED_ZIP_CODES = [10409, 12309, 12349, 12685, 13086, 13127, 13405, 13407, 13627]
 
 
 SLACK_CHANNELS_FILTERS = {
@@ -14,15 +14,17 @@ SLACK_CHANNELS_FILTERS = {
         'rooms': (5, None),
         'wbs_required': False,
     },
-    '#municipal': {
-        'sources': MUNICIPAL_VENDORS,
-        'rooms': (2, None),
-        'wbs_required': False,
-    },
-    '#sharable': {
-        'rooms': (4, None),
-        'wbs_required': False,
-    },
+    '#municipal': FlatFilter(
+        sources=MUNICIPAL_VENDORS,
+        rooms=(2, None),
+        wbs_required=False,
+        excluded_zips=EXCLUDED_ZIP_CODES,
+    ),
+    '#sharable': FlatFilter(
+        rooms=(4, None),
+        wbs_required=False,
+        excluded_zips=EXCLUDED_ZIP_CODES,
+    ),
     '#tki': {
         'sources': ['tki', 'immo/tki'],
     },
