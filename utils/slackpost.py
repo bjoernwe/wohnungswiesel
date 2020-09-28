@@ -27,7 +27,7 @@ def post_flat_to_slack(flat: FlatItem, channel: str):
         description += address
 
     rent = _get_rent(flat)
-    description += f"> Miete: {int(rent)} / {int(flat.get_price_per_room())} ({int(flat.get_price_per_room(minus_one=True))}) €/room"
+    description += f"> Miete: {rent} / {int(flat.get_price_per_room())} ({int(flat.get_price_per_room(minus_one=True))}) €/room"
 
     thumbnail_url = flat.image_urls[0] if flat.image_urls else None
 
