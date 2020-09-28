@@ -1,3 +1,4 @@
+import json
 import os
 import pytest
 
@@ -22,3 +23,17 @@ class TestSlackPost:
         # WHEN a flat is posted to Slack
         post_flat_to_slack(flat=flat_item, channel='#test')
         # THEN no exception was thrown
+
+    @pytest.mark.usefixtures('slack_offline')
+    def test_all_previous_flats(self):
+
+        # GIVEN all flats that have been parsed
+        with open('../log/all_items.jsonl', 'r') as f:
+            lines = f.readlines()
+
+        # WHEN they are posted to slack
+        # THEN there is no exception
+        for line in lines:
+            flat_dict = json.loads(line)
+            flat = FlatItem(**flat_dict)
+            post_flat_to_slack(flat=flat, channel='#test')
