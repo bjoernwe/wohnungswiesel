@@ -27,7 +27,7 @@ def post_flat_to_slack(flat: FlatItem, channel: str):
         description += address
 
     rent = _get_rent(flat)
-    description += f"> Miete: {rent} / {flat.get_price_per_room()} €/room"
+    description += f"> Miete: {int(rent)} / {int(flat.get_price_per_room())} ({int(flat.get_price_per_room(minus_one=True))}) €/room"
 
     thumbnail_url = flat.image_urls[0] if flat.image_urls else None
 
@@ -86,9 +86,9 @@ def _get_rent(flat: FlatItem) -> str:
         return '[n/a]'
 
     if flat.rent_total:
-        return f'{flat.rent_total} € (warm)'
+        return f'{flat.rent_total}€ (warm)'
 
     if flat.rent_cold:
-        return f'{flat.rent_cold} € (kalt)'
+        return f'{flat.rent_cold}€ (kalt)'
 
     return '[n/a]'
