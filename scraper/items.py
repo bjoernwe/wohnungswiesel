@@ -59,7 +59,7 @@ class FlatItem:
             else:
                 return self.rent_total
 
-    def get_price_per_room(self) -> Optional[float]:
+    def get_price_per_room(self, minus_one: bool = False) -> Optional[float]:
 
         if self.rooms is None:
             return
@@ -68,5 +68,8 @@ class FlatItem:
 
         if not rent:
             return
+
+        if minus_one and self.rooms >= 2:
+            return rent / (self.rooms - 1)
 
         return rent / self.rooms
