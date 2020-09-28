@@ -44,6 +44,7 @@ realtors = {
     'tolle': 'a7668736462505e3ce9b99f',
     'trad': 'a41e694c1722b8ab0df4d76',
     'trialog': 'add1fed14a906ccdfec00',
+    'vigor': 'a77928149ebdd2d66b8',
     'vonovia': 'a26247b701a53dad2e1',
     'vorwaerts': 'ab22498ac59d5bc',
     'vtb': 'ac17c7bb772c114c8904e8a',
