@@ -25,6 +25,11 @@ SLACK_CHANNELS_FILTERS = {
         wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
     ),
+    '#small': FlatFilter(
+        rooms=(2, 3),
+        wbs_required=False,
+        excluded_zips=EXCLUDED_ZIP_CODES,
+    ),
     '#tki': {
         'sources': ['tki', 'immo/tki'],
     },
