@@ -17,6 +17,7 @@ realtors = {
     'carolin_weiss': 'a76ce930e46c42a8975',
     'cb_prop': 'a1af3222d3688d27a35385b',
     'claudia_koehn': 'ac75d7b78eded13d11d',
+    'covivio': 'a77b6e81347d1427d',
     'cramer': 'aa38aca9696dfe2b61a',
     'deutsche_wohnen': 'a8f9031eb35e66b77',
     'eb': 'a4f284f473b53cc1765',
