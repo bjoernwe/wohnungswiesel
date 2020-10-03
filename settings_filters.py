@@ -38,6 +38,10 @@ SLACK_CHANNELS_FILTERS = {
     '#tki': FlatFilter(
         sources=['tki', 'immo/tki'],
     ),
+    '#wbs': FlatFilter(
+        rooms=(2, None),
+        wbs_required=True,
+    ),
     #'#test': {
     #    'sources': ['immo'],
     #    'zip_range': (10115, 14199),
