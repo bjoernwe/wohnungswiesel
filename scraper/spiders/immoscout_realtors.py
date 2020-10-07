@@ -54,5 +54,6 @@ realtors = {
     'wacker': 'ad06a23e096c015f4b4e5e5',
     'wbm': 'a97efe8583d1da8',
     'yourplaces': 'aed0e89b4ac36454324',
+    'zachger': 'a0edc2846c766767d87',
     'zebitz': 'aedf2aff8d2ed18cc303b81',
 }
