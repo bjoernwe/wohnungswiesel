@@ -30,6 +30,7 @@ realtors = {
     'gesobau-2': 'a6c23d1c589c4ab50ed85',
     'gesobau-3': 'a13e21300d4dd4ae8fd85ac',
     'gewobag': 'a54af8451045fd1',
+    'habitare': 'a4d70f76b289c22fbbe',
     'homes&service': 'afea67b90e71d7562a2aa8a',
     'homesk': 'a3f9f1cb7cf2b88cead8bd3',
     'howoge': 'a95482252ed2cb95a3afa',
