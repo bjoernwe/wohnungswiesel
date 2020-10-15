@@ -13,13 +13,13 @@ from scraper.spiders.tki_spider import TkiSpider
 
 def main():
     process = CrawlerProcess(get_project_settings())
-    process.crawl(CovivioSpider)
+    #process.crawl(CovivioSpider)
     process.crawl(DegewoSpider)
     process.crawl(GcpSpider)
     process.crawl(GewobagSpider)
     process.crawl(ImmoscoutSpider)
     process.crawl(StadtHausSpider)
-    process.crawl(StadtUndLandSpider)
+    #process.crawl(StadtUndLandSpider)
     process.crawl(TkiSpider)
     process.start()
 
