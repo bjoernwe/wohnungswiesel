@@ -7,6 +7,7 @@ realtors = {
     'ambelin': 'a52150a47254d833cacbb7a',
     'ajs': 'a71914fc943a00e35f3e7f3',
     'baerlin': 'acd8237f2cffab42b1e',
+    'bardt': 'a6d819836d4e34bba16',
     'bartelt': 'a18ee8bc4ad087ccfa6dfca',
     'bbg': 'a641958b62e5b3ed8',
     'berlin_city': 'a1f9f7e6a22f5d01344c1',
