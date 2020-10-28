@@ -1,3 +1,5 @@
+import time
+
 from enum import Enum
 from pydantic import HttpUrl, validator
 from pydantic.dataclasses import dataclass
@@ -24,6 +26,7 @@ class FlatItem:
     link: HttpUrl
     size: float
     rooms: float
+    timestamp: float = time.time()
     address: Optional[str] = None
     district: Optional[str] = None
     rent_cold: Optional[float] = None
