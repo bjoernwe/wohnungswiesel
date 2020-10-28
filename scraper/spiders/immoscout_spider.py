@@ -1,4 +1,5 @@
 import json
+import random
 import scrapy
 import urllib.parse
 
@@ -27,7 +28,7 @@ class ImmoscoutSpider(scrapy.Spider):
     }
 
     def start_requests(self) -> Iterable[Request]:
-        for realtor, encrypted_id in realtors.items():
+        for realtor, encrypted_id in random.sample(realtors.items(), k=len(realtors)):
             query_params = dict(self._query_params)
             query_params['encryptedRealtorId'] = encrypted_id
             query_args = urllib.parse.urlencode(query_params)
