@@ -60,7 +60,7 @@ class ImmoscoutSpider(scrapy.Spider):
                 link=f'https://www.immobilienscout24.de/expose/{data.realEstateId}/',
                 size=data.address.area,
                 rooms=data.numberOfRooms,
-                address=f'{data.address.street} {data.address.houseNumber}, {data.address.postalCode} {data.address.city}',
+                address=str(data.address),
                 district=None,
                 rent_cold=data.price,
                 image_urls=data.pictureUrl

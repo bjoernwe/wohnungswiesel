@@ -18,6 +18,25 @@ class RealEstateAddress:
     street: Optional[str] = None
     houseNumber: Optional[str] = None
 
+    def __str__(self):
+
+        street = ''
+        if self.street:
+            street += self.street
+            if self.houseNumber:
+                street = street + ' ' + str(self.houseNumber)
+
+        city = ''
+        if self.postalCode:
+            city += str(self.postalCode)
+        if self.city:
+            city += self.city
+
+        if street or city:
+            return ', '.join([street, city])
+
+        return 'n/a'
+
 
 @dataclass
 class RealEstateCoordinates:
