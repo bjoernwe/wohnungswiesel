@@ -14,7 +14,7 @@ BERLIN_ZIP_RANGE = (10115, 14199)
 class FlatFilter:
 
     sources: Optional[List[str]] = None
-    rooms: Tuple[Optional[int], Optional[int]] = field(default=(None, None))
+    rooms: Tuple[Optional[float], Optional[float]] = field(default=(None, None))
     wbs_required: Optional[bool] = None
     zip_range: Tuple[Optional[int], Optional[int]] = field(default=BERLIN_ZIP_RANGE)
     excluded_zips: Optional[List[int]] = None
