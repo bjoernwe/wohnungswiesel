@@ -19,23 +19,34 @@ class RealEstateAddress:
     houseNumber: Optional[str] = None
 
     def __str__(self):
-
-        street = ''
-        if self.street:
-            street += self.street
-            if self.houseNumber:
-                street = street + ' ' + str(self.houseNumber)
-
-        city = ''
-        if self.postalCode:
-            city += str(self.postalCode)
-        if self.city:
-            city += self.city
-
-        if street or city:
-            return ', '.join([street, city])
-
+        parts = []
+        if self.street_as_str:
+            parts.append(self.street_as_str)
+        if self.city_as_str:
+            parts.append(self.city_as_str)
+        if parts:
+            return ', '.join(parts)
         return 'n/a'
+
+    @property
+    def street_as_str(self) -> Optional[str]:
+        parts = []
+        if self.street:
+            parts.append(self.street)
+            if self.houseNumber:
+                parts.append(self.houseNumber)
+        if parts:
+            return ' '.join(parts)
+
+    @property
+    def city_as_str(self) -> Optional[str]:
+        parts = []
+        if self.postalCode:
+            parts.append(str(self.postalCode))
+        if self.city:
+            parts.append(self.city)
+        if parts:
+            return ' '.join(parts)
 
 
 @dataclass
