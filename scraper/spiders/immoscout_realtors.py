@@ -3,6 +3,7 @@ realtors = {
     #'1924': 'a4d54e322312a38a9c9b3',
     '4r&s': 'ade62695f24f3dca58b443c',
     'ado': 'a625521eb5a410e8f57cc',
+    'akelius': 'a5fbd2043d61b252d71e2',
     'allod': 'a3a27a5cb96',
     'ambelin': 'a52150a47254d833cacbb7a',
     #'ajs': 'a71914fc943a00e35f3e7f3',
