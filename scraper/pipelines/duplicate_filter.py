@@ -23,12 +23,6 @@ class DuplicateFilterPipeline:
         self._filename = str(pathlib.Path('~/.wohnungswiesel/known_items.pkl').expanduser())
         self._file_lock = RLock()
 
-    def open_spider(self, spider):
-        pass
-
-    def close_spider(self, spider):
-        pass
-
     def process_item(self, item, spider=None) -> FlatItem:
         item_adapter = ItemAdapter(item=item)
         if self._is_known_item(item=item_adapter):
