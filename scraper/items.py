@@ -35,6 +35,7 @@ class FlatItem:
     wbs_required: Optional[bool] = None
     source_qualifier: Optional[str] = None
 
+    @classmethod
     @validator('image_urls', pre=True)
     def _normalize_image_urls(cls, v):
         if not v:
@@ -46,7 +47,7 @@ class FlatItem:
     def get_rent(self, prefer_total=True) -> Optional[float]:
 
         if not self.rent_cold and not self.rent_total:
-            return False
+            return
 
         if prefer_total:
 
