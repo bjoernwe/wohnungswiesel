@@ -15,7 +15,7 @@ class GcpSpider(scrapy.Spider):
     _request_url = 'https://www.grandcityproperty.de/real-estate-ajax?language=de'
 
     _form_data = {
-        'city': 'Berlin',
+        'city': 'Städte|Berlin',
         'type': 'M'
      }
 
@@ -30,7 +30,7 @@ class GcpSpider(scrapy.Spider):
     def _parse_flat_from_selector(self, s: Selector, response: TextResponse) -> FlatItem:
         flat_id = s.xpath('./@data-id').get()
         link = response.urljoin(s.xpath('.//a/@href').get())
-        title = s.xpath('.//h2/text()').get().replace('\n','').strip()
+        title = s.xpath('.//h2/text()').get().replace('\n', '').strip()
         size = parse_qm(s.xpath('.//div/text()[contains(., "Fläche")]/../text()').getall()[0])
         rooms = float(s.xpath('.//div/text()[contains(., "Zimmer")]/../text()').get().split()[0].replace(',', '.'))
         address = s.xpath('./@data-street').get() + ', ' + s.xpath('./@data-city').get()
