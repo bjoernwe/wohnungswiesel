@@ -1,3 +1,6 @@
+from settings_filters import SLACK_CHANNELS_FILTERS  # noqa
+
+
 BOT_NAME = 'wohnungswiesel'
 SPIDER_MODULES = ['scraper.spiders']
 
