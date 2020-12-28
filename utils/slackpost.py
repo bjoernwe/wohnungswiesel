@@ -1,6 +1,5 @@
 import os
 
-from itemadapter import ItemAdapter
 from slack import WebClient
 from slack.errors import SlackApiError
 from typing import Optional, List
@@ -27,7 +26,9 @@ def post_flat_to_slack(flat: FlatItem, channel: str):
         description += address
 
     rent = _get_rent(flat)
-    description += f"> Miete: {rent} / {int(flat.get_price_per_room())} ({int(flat.get_price_per_room(minus_one=True))}) €/room"
+    rent_per_room = flat.get_price_per_room_as_str()
+    rent_per_one_room_less = flat.get_price_per_room_as_str(minus_one=True)
+    description += f"> Miete: {rent} / {rent_per_room} ({rent_per_one_room_less}) €/room"
 
     thumbnail_url = flat.image_urls[0] if flat.image_urls else None
 

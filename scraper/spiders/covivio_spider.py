@@ -7,7 +7,7 @@ from scrapy import Request
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import FlatItem, FlatSource
+from scraper.items import FlatItem, FlatSource, RealEstateType
 
 
 class CovivioSpider(scrapy.Spider):
@@ -46,5 +46,5 @@ class CovivioSpider(scrapy.Spider):
             flat_item = FlatItem(id=obj['id'], source=self.name, title=obj['title']['rendered'], link=obj['link'],
                                  size=obj['wohnflaeche'], rooms=obj['anzahl_zimmer'], address=obj['adresse'],
                                  district=obj['regionaler_zusatz'], rent_cold=obj['kaltmiete'], image_urls=image_urls,
-                                 wbs_required=False)
+                                 wbs_required=False, type=RealEstateType.apartment_rent)
             yield flat_item

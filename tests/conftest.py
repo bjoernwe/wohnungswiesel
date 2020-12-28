@@ -1,10 +1,10 @@
 import pytest
 
-from scraper.items import FlatItem, FlatSource
+from scraper.items import FlatItem, FlatSource, RealEstateType
 
 
 @pytest.fixture
-def flat_item():
+def flat_item() -> FlatItem:
     return FlatItem(
         id='42',
         source=FlatSource.test,
@@ -12,6 +12,7 @@ def flat_item():
         title='Title',
         size=100,
         rooms=3,
+        type=RealEstateType.apartment_rent,
         address='Hauptstr. 1, 12345 Berlin',
         district=None,
         rent_cold=500,

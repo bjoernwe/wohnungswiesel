@@ -9,7 +9,7 @@ from scrapy.http import TextResponse
 from typing import Iterable, Optional
 
 from scraper.items import FlatItem, FlatSource
-from scraper.spiders.immoscout_data import ImmoScoutData, RealEstateType
+from scraper.spiders.immoscout_data import ImmoScoutData
 from scraper.spiders.immoscout_realtors import realtors
 
 
@@ -42,9 +42,6 @@ class ImmoscoutSpider(scrapy.Spider):
 
     def _parse_flat_from_selector(self, result: dict, response: TextResponse, realtor: str) -> Optional[FlatItem]:
 
-        if result.get('realEstateType') != RealEstateType.apartment_rent:
-            return
-
         try:
             data = ImmoScoutData(**result)
         except ValidationError as e:
@@ -63,7 +60,8 @@ class ImmoscoutSpider(scrapy.Spider):
                 address=str(data.address),
                 district=None,
                 rent_cold=data.price,
-                image_urls=data.pictureUrl
+                image_urls=[data.pictureUrl] if data.pictureUrl else None,
+                type=data.realEstateType
             )
         except ValidationError as e:
             self.logger.error(msg=f'Error processing {ImmoScoutData.__class__.__name__} into flat: {data}', exc_info=e)

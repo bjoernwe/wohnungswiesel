@@ -1,20 +1,16 @@
-from enum import Enum
-
 from pydantic import HttpUrl, validator
 from pydantic.dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Dict
 
-
-class RealEstateType(str, Enum):
-    apartment_rent = 'APARTMENT_RENT'
+from scraper.items import RealEstateType
 
 
 @dataclass
 class RealEstateAddress:
     city: str
     postalCode: int
-    area: float
-    areaLabel: str
+    area: Optional[float] = None
+    areaLabel: Optional[str] = None
     street: Optional[str] = None
     houseNumber: Optional[str] = None
 
@@ -59,17 +55,17 @@ class RealEstateCoordinates:
 class ImmoScoutData:
     realEstateId: int
     realEstateType: RealEstateType
-    price: float
-    formattedPrice: str
-    priceDimension: str
     showAddress: bool
     address: RealEstateAddress
-    numberOfRooms: float
     buy: bool
+    price: Optional[float] = None
+    numberOfRooms: Optional[float] = None
+    formattedPrice: Optional[str] = None
+    priceDimension: Optional[str] = None
     pictureUrl: Optional[HttpUrl] = None
     coordinates: Optional[RealEstateCoordinates] = None
     lastDeactivationDate: Optional[float] = None
-    rentalStartDate: Optional[float] = None
+    rentalStartDate: Optional[Dict] = None
 
     @validator('pictureUrl', pre=True)
     def _picture_url_not_empty(cls, v):

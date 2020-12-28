@@ -4,7 +4,7 @@ from scrapy import Request, Selector
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import FlatItem, FlatSource
+from scraper.items import FlatItem, FlatSource, RealEstateType
 from utils.parsers import parse_qm
 
 
@@ -39,5 +39,5 @@ class GcpSpider(scrapy.Spider):
         image_urls = [response.urljoin(s.xpath('.//picture/@data-default-src').get())]
         flat = FlatItem(id=flat_id, source=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, image_urls=image_urls,
-                        wbs_required=False)
+                        wbs_required=False, type=RealEstateType.apartment_rent)
         return flat

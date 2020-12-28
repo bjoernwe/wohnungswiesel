@@ -3,7 +3,7 @@ import scrapy
 from scrapy import Selector
 from scrapy.http import TextResponse
 
-from scraper.items import FlatItem, FlatSource
+from scraper.items import FlatItem, FlatSource, RealEstateType
 from utils.parsers import parse_euro
 
 
@@ -33,5 +33,5 @@ class StadtUndLandSpider(scrapy.Spider):
         image_urls = [response.urljoin(url) for url in s.xpath('.//ul[contains(@class, "SP-MiniGallery__list")]//a/@href').getall()]
         flat = FlatItem(id=flat_id, source=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, rent_total=rent_total,
-                        image_urls=image_urls)
+                        image_urls=image_urls, type=RealEstateType.apartment_rent)
         return flat

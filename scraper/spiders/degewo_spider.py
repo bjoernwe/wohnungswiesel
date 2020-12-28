@@ -7,7 +7,7 @@ from scrapy import Request
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import FlatItem, FlatSource
+from scraper.items import FlatItem, FlatSource, RealEstateType
 from utils.parsers import parse_euro
 
 
@@ -73,6 +73,7 @@ class DegewoSpider(scrapy.Spider):
             flat_args['rent_total'] = parse_euro(flat_dict['rent_total_with_vat'])
             flat_args['rooms'] = int(flat_args['rooms'].split()[0])
             flat_args['wbs_required'] = flat_dict['wbs_required']
+            flat_args['type'] = RealEstateType.apartment_rent
             flat_item = FlatItem(**flat_args)
             yield flat_item
 

@@ -18,14 +18,26 @@ class FlatSource(str, Enum):
     tki = 'tki'
 
 
+class RealEstateType(str, Enum):
+    apartment_rent = 'APARTMENT_RENT'
+    garage_rent = 'GARAGE_RENT'
+    gastronomy = 'GASTRONOMY'
+    industry = 'INDUSTRY'
+    office = 'OFFICE'
+    short_term_accomodation = 'SHORT_TERM_ACCOMMODATION'
+    special_purpose = 'SPECIAL_PURPOSE'
+    store = 'STORE'
+
+
 @dataclass
 class FlatItem:
     id: Union[int, str]
     source: FlatSource
     title: str
     link: HttpUrl
-    size: float
-    rooms: float
+    type: RealEstateType
+    size: Optional[float] = None
+    rooms: Optional[float] = None
     timestamp: float = time.time()
     address: Optional[str] = None
     district: Optional[str] = None
@@ -77,3 +89,12 @@ class FlatItem:
             return rent / (self.rooms - 1)
 
         return rent / self.rooms
+
+    def get_price_per_room_as_str(self, minus_one: bool = False) -> str:
+
+        price = self.get_price_per_room(minus_one=minus_one)
+
+        if price is None:
+            return '[n/a]'
+
+        return str(int(price))

@@ -6,7 +6,7 @@ from scrapy import Request, Selector
 from scrapy.http import TextResponse
 from typing import Iterable
 
-from scraper.items import FlatItem, FlatSource
+from scraper.items import FlatItem, FlatSource, RealEstateType
 from utils.parsers import parse_qm, parse_euro
 
 
@@ -44,5 +44,5 @@ class StadtHausSpider(scrapy.Spider):
         image_urls = [s.xpath('.//img/@src').get()]
         flat = FlatItem(id=flat_id, source=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, rent_total=rent_total,
-                        image_urls=image_urls)
+                        image_urls=image_urls, type=RealEstateType.apartment_rent)
         return flat

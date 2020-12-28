@@ -1,5 +1,5 @@
 from scraper.filters import FlatFilter
-
+from scraper.items import RealEstateType
 
 MUNICIPAL_VENDORS = ['degewo', 'gewobag', 'stadt-und-land', 'wbm', 'immo/degewo', 'immo/gewobau-1', 'immo/gewobau-2',
                      'immo/gewobau-3', 'immo/gewobag', 'immo/stadt&land', 'immo/wbm']
@@ -21,35 +21,34 @@ SLACK_CHANNELS_FILTERS = {
         rooms=(5, None),
         wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
+        types=[RealEstateType.apartment_rent],
+    ),
+    '#commercial': FlatFilter(
+        types=[RealEstateType.office, RealEstateType.industry, RealEstateType.special_purpose, RealEstateType.store],
     ),
     '#municipal': FlatFilter(
         sources=MUNICIPAL_VENDORS,
         rooms=(2, None),
         wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
+        types=[RealEstateType.apartment_rent],
     ),
     '#medium': FlatFilter(
         rooms=(3, 4),
         wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
+        types=[RealEstateType.apartment_rent],
     ),
     '#single': FlatFilter(
         rooms=(1, 1.9),
         wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
+        types=[RealEstateType.apartment_rent],
     ),
     '#small': FlatFilter(
         rooms=(2, 3),
         wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
+        types=[RealEstateType.apartment_rent],
     ),
-    '#wbs': FlatFilter(
-        rooms=(2, None),
-        wbs_required=True,
-        excluded_zips=EXCLUDED_ZIP_CODES,
-    ),
-    #'#test': {
-    #    'sources': ['immo'],
-    #    'zip_range': (10115, 14199),
-    #},
 }

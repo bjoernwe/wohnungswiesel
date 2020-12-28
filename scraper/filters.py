@@ -4,7 +4,7 @@ from dataclasses import field
 from pydantic.dataclasses import dataclass
 from typing import List, Optional, Set, Tuple
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, RealEstateType
 
 
 BERLIN_ZIP_RANGE = (10115, 14199)
@@ -14,6 +14,7 @@ BERLIN_ZIP_RANGE = (10115, 14199)
 class FlatFilter:
 
     sources: Optional[List[str]] = None
+    types: Optional[List[RealEstateType]] = None
     rooms: Tuple[Optional[float], Optional[float]] = field(default=(None, None))
     wbs_required: Optional[bool] = None
     zip_range: Tuple[Optional[int], Optional[int]] = field(default=BERLIN_ZIP_RANGE)
@@ -23,6 +24,10 @@ class FlatFilter:
 
         # Sources
         if not self._has_matching_source(flat):
+            return False
+
+        # Types
+        if not self._is_matching_type(flat):
             return False
 
         # Rooms
@@ -52,6 +57,14 @@ class FlatFilter:
         has_matching_source = True in matches
 
         return has_matching_source
+
+    def _is_matching_type(self, flat: FlatItem) -> bool:
+
+        # keep flats without type or when no type is filtered
+        if not self.types or not flat.type:
+            return True
+
+        return flat.type in self.types
 
     def _has_matching_number_of_rooms(self, flat: FlatItem) -> bool:
 
