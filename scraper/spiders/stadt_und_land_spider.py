@@ -1,3 +1,5 @@
+from collections import Generator
+
 import scrapy
 
 from scrapy import Selector
@@ -15,7 +17,7 @@ class StadtUndLandSpider(scrapy.Spider):
         'https://www.stadtundland.de/Mieten/010-Angebote-Bestand.php?form=stadtundland-expose-search-1.form&sp%3AroomsTo%5B%5D=1&action=submit'
     ]
 
-    def parse(self, response: TextResponse, **kwargs) -> FlatItem:
+    def parse(self, response: TextResponse, **kwargs) -> Generator[FlatItem]:
         for result in response.xpath('//li[@class="SP-TeaserList__item"]'):
             flat = self._parse_flat_from_selector(result, response=response)
             yield flat

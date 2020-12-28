@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-
+from typing import Optional
 
 re_qm = r'(\d+[.,]?\d*)\s*(qm|m2|m²|m)'
 re_euro = r'([\d.]+[,]?\d*)\s*(€|Euro|Eur)'
@@ -16,7 +16,7 @@ def parse_qm(s: str) -> float:
     return number
 
 
-def parse_euro(s: str) -> float:
+def parse_euro(s: str) -> Optional[float]:
     if s is None:
         return None
     matches = re.search(re_euro, s, re.IGNORECASE)

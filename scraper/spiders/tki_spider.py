@@ -3,7 +3,7 @@ import urllib.parse
 
 from scrapy import Request, Selector
 from scrapy.http import TextResponse
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Generator
 
 from scraper.items import FlatItem, FlatSource, RealEstateType
 from utils.parsers import parse_euro
@@ -29,7 +29,7 @@ class TkiSpider(scrapy.Spider):
         url = f'{self._request_url}?{query_args}'
         yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse(self, response: TextResponse, **kwargs) -> FlatItem:
+    def parse(self, response: TextResponse, **kwargs) -> Generator[FlatItem]:
         for result in response.xpath('//div[@class="property"]'):
             flat = self._parse_flat_from_selector(result, response=response)
             yield flat

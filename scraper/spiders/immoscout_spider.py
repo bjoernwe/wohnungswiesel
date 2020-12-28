@@ -6,7 +6,7 @@ import urllib.parse
 from pydantic import ValidationError
 from scrapy import Request
 from scrapy.http import TextResponse
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Generator
 
 from scraper.items import FlatItem, FlatSource
 from scraper.spiders.immoscout_data import ImmoScoutData
@@ -35,7 +35,7 @@ class ImmoscoutSpider(scrapy.Spider):
             url = f'{self._request_url}?{query_args}'
             yield scrapy.Request(url=url, callback=self.parse, cb_kwargs={'realtor': realtor})
 
-    def parse(self, response: TextResponse, realtor: Optional[str] = None) -> FlatItem:
+    def parse(self, response: TextResponse, realtor: Optional[str] = None) -> Generator[FlatItem]:
         for result in json.loads(response.text)['realEstates']:
             flat = self._parse_flat_from_selector(result=result, response=response, realtor=realtor)
             yield flat

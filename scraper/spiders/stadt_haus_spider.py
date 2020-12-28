@@ -4,7 +4,7 @@ import urllib.parse
 
 from scrapy import Request, Selector
 from scrapy.http import TextResponse
-from typing import Iterable
+from typing import Iterable, Generator
 
 from scraper.items import FlatItem, FlatSource, RealEstateType
 from utils.parsers import parse_qm, parse_euro
@@ -26,7 +26,7 @@ class StadtHausSpider(scrapy.Spider):
         url = f'{api_endpoint}?{query_args}'
         yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse(self, response: TextResponse, **kwargs) -> FlatItem:
+    def parse(self, response: TextResponse, **kwargs) -> Generator[FlatItem]:
         for result in response.xpath('//div[@id="block-system-main"]//div[@class="view-content"]/div'):
             flat = self._parse_flat_from_selector(result, response=response)
             yield flat
