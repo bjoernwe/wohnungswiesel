@@ -17,7 +17,7 @@ def slack_offline():
 
 class TestSlackPost:
 
-    #@pytest.mark.usefixtures('slack_offline')
+    @pytest.mark.usefixtures('slack_offline')
     def test_flat_item_is_accepted(self, flat_item):
         # GIVEN a FlatItem object
         # WHEN a flat is posted to Slack
