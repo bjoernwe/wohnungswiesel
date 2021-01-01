@@ -49,5 +49,5 @@ class TkiSpider(scrapy.Spider):
         image_urls = [s.xpath('.//img/@src').get()]
         flat = FlatItem(id=flat_id, source=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, image_urls=image_urls,
-                        wbs_required=False, type=RealEstateType.apartment_rent)
+                        type=RealEstateType.apartment_rent)
         return flat

@@ -19,7 +19,6 @@ SLACK_CHANNELS_FILTERS = {
     '#all_flats': FlatFilter(),
     '#big': FlatFilter(
         rooms=(5, None),
-        wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
         types=[RealEstateType.apartment_rent],
     ),
@@ -29,25 +28,21 @@ SLACK_CHANNELS_FILTERS = {
     '#municipal': FlatFilter(
         sources=MUNICIPAL_VENDORS,
         rooms=(2, None),
-        wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
         types=[RealEstateType.apartment_rent],
     ),
     '#medium': FlatFilter(
         rooms=(3, 4),
-        wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
         types=[RealEstateType.apartment_rent],
     ),
     '#single': FlatFilter(
         rooms=(1, 1.9),
-        wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
         types=[RealEstateType.apartment_rent],
     ),
     '#small': FlatFilter(
         rooms=(2, 3),
-        wbs_required=False,
         excluded_zips=EXCLUDED_ZIP_CODES,
         types=[RealEstateType.apartment_rent],
     ),
