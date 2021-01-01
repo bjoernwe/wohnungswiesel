@@ -24,9 +24,18 @@ class RealEstateType(str, Enum):
     gastronomy = 'GASTRONOMY'
     industry = 'INDUSTRY'
     office = 'OFFICE'
-    short_term_accomodation = 'SHORT_TERM_ACCOMMODATION'
+    short_term_accommodation = 'SHORT_TERM_ACCOMMODATION'
     special_purpose = 'SPECIAL_PURPOSE'
     store = 'STORE'
+
+    def human_readable(self) -> str:
+        type2str = {
+            RealEstateType.apartment_rent: 'Apartment',
+            RealEstateType.industry: 'Industry',
+            RealEstateType.office: 'Office',
+            RealEstateType.store: 'Store'
+        }
+        return type2str.get(self, 'Other')
 
 
 @dataclass
