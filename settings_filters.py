@@ -1,6 +1,6 @@
 from scraper.filters import FlatFilter
 from scraper.items import RealEstateType
-from zip_codes import ZIPS_BLACKLIST, ZIPS_FRIEDRICHSHAIN, ZIPS_KREUZBERG, ZIPS_NEUKOELLN
+from zip_codes import ZIPS_BLACKLIST, ZIPS_FRIEDRICHSHAIN, ZIPS_KREUZBERG, ZIPS_MITTE, ZIPS_NEUKOELLN
 
 
 MUNICIPAL_VENDORS = ['degewo', 'gewobag', 'stadt-und-land', 'wbm', 'immo/degewo', 'immo/gewobau-1', 'immo/gewobau-2',
@@ -30,6 +30,10 @@ SLACK_CHANNELS_FILTERS = {
         rooms=(3, 4),
         wbs_required=False,
         zip_blacklist=ZIPS_BLACKLIST,
+        types=[RealEstateType.apartment_rent],
+    ),
+    '#mitte': FlatFilter(
+        zip_whitelist=ZIPS_MITTE,
         types=[RealEstateType.apartment_rent],
     ),
     '#municipal': FlatFilter(
