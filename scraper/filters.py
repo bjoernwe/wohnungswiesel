@@ -5,9 +5,7 @@ from pydantic.dataclasses import dataclass
 from typing import List, Optional, Set, Tuple
 
 from scraper.items import FlatItem, RealEstateType
-
-
-BERLIN_ZIP_RANGE = (10115, 14199)
+from zip_codes import BERLIN_ZIP_RANGE
 
 
 @dataclass
@@ -18,7 +16,8 @@ class FlatFilter:
     rooms: Tuple[Optional[float], Optional[float]] = field(default=(None, None))
     wbs_required: Optional[bool] = None
     zip_range: Tuple[Optional[int], Optional[int]] = field(default=BERLIN_ZIP_RANGE)
-    excluded_zips: Optional[List[int]] = None
+    zip_whitelist: Optional[Set[int]] = None
+    zip_blacklist: Optional[Set[int]] = None
 
     def is_match(self, flat: FlatItem):
 
@@ -40,6 +39,10 @@ class FlatFilter:
 
         # ZIP range
         if not self._has_matching_zip_range(flat):
+            return False
+
+        # ZIP whitelist
+        if not self._has_matching_zip(flat):
             return False
 
         # ZIP blacklist
@@ -116,9 +119,24 @@ class FlatFilter:
 
         return True
 
+    def _has_matching_zip(self, flat: FlatItem) -> bool:
+
+        if not self.zip_whitelist:
+            return True
+
+        zip_code = self._extract_zip(flat.address)
+
+        if not zip_code:
+            return True
+
+        if zip_code not in self.zip_whitelist:
+            return False
+
+        return True
+
     def _has_excluded_zip(self, flat: FlatItem) -> bool:
 
-        if not self.excluded_zips:
+        if not self.zip_blacklist:
             return False
 
         zip_code = self._extract_zip(flat.address)
@@ -126,7 +144,7 @@ class FlatFilter:
         if not zip_code:
             return False
 
-        if zip_code in self.excluded_zips:
+        if zip_code in self.zip_blacklist:
             return True
 
         return False
