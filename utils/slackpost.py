@@ -18,7 +18,7 @@ def post_flat_to_slack(flat: FlatItem, channel: str):
 
     description = (
         f"> <{flat.link}|*{flat.title}*> *[{flat.source}{source_qualifier}]*\n"
-        f"> {flat.rooms} Zimmer / ({flat.size} qm)\n"
+        f"> {flat.rooms} rooms / ({flat.size} ㎡)\n"
     )
 
     address = _get_address(flat=flat)
@@ -32,8 +32,10 @@ def post_flat_to_slack(flat: FlatItem, channel: str):
 
     thumbnail_url = flat.image_urls[0] if flat.image_urls else None
 
+    preview = f"{flat.rooms} rooms / {flat.size} ㎡ / {rent} €"
+
     block = _generate_markdown_block(text=description, image_url=thumbnail_url)
-    _send_blocks_to_slack(blocks=[block], channel=channel)
+    _send_blocks_to_slack(blocks=[block], channel=channel, preview_text=preview)
 
 
 def _generate_markdown_block(text: str, image_url: Optional[str] = None) -> dict:
@@ -53,13 +55,15 @@ def _generate_markdown_block(text: str, image_url: Optional[str] = None) -> dict
     return block
 
 
-def _send_blocks_to_slack(blocks: List[dict], channel: str, icon_url: str = 'https://i.imgur.com/OkldsAZ.jpg'):
+def _send_blocks_to_slack(blocks: List[dict], channel: str, icon_url: str = 'https://i.imgur.com/OkldsAZ.jpg',
+                          preview_text: str = None):
     slack = WebClient(token=os.environ['SLACK_API_TOKEN'])
     try:
         slack.chat_postMessage(
             channel=channel,
             blocks=blocks,
-            icon_url=icon_url
+            icon_url=icon_url,
+            text=preview_text
         )
     except SlackApiError as e:
         print(f"Got an error: {e.response['error']}")
