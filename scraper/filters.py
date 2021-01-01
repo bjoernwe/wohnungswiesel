@@ -94,6 +94,9 @@ class FlatFilter:
 
     def _has_matching_zip_range(self, flat: FlatItem) -> bool:
 
+        if not self.zip_range:
+            return True
+
         zip_min = self.zip_range[0]
         zip_max = self.zip_range[1]
 
