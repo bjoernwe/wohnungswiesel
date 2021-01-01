@@ -29,7 +29,7 @@ class TkiSpider(scrapy.Spider):
         url = f'{self._request_url}?{query_args}'
         yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse(self, response: TextResponse, **kwargs) -> Generator[FlatItem]:
+    def parse(self, response: TextResponse, **kwargs) -> FlatItem:
         for result in response.xpath('//div[@class="property"]'):
             flat = self._parse_flat_from_selector(result, response=response)
             yield flat

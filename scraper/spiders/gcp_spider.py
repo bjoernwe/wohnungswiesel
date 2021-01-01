@@ -22,7 +22,7 @@ class GcpSpider(scrapy.Spider):
     def start_requests(self) -> Iterable[Request]:
         yield scrapy.FormRequest(url=self._request_url, formdata=self._form_data, callback=self.parse)
 
-    def parse(self, response: TextResponse, **kwargs) -> Generator[FlatItem]:
+    def parse(self, response: TextResponse, **kwargs) -> Generator[FlatItem, None, None]:
         for result in response.xpath('//div[contains(@class, "real-estate-item")]'):
             flat = self._parse_flat_from_selector(result, response=response)
             yield flat

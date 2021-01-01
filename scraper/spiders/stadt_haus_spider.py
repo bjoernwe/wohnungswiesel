@@ -26,7 +26,7 @@ class StadtHausSpider(scrapy.Spider):
         url = f'{api_endpoint}?{query_args}'
         yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse(self, response: TextResponse, **kwargs) -> Generator[FlatItem]:
+    def parse(self, response: TextResponse, **kwargs) -> Generator[FlatItem, None, None]:
         for result in response.xpath('//div[@id="block-system-main"]//div[@class="view-content"]/div'):
             flat = self._parse_flat_from_selector(result, response=response)
             yield flat
