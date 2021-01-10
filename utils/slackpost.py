@@ -39,7 +39,7 @@ def post_flat_to_slack(flat: FlatItem, channel: str):
 
     # Generate post
     thumbnail_url = flat.image_urls[0] if flat.image_urls else None
-    preview = f"{flat.rooms} rooms / {flat.size} ㎡ / {rent} €"
+    preview = f"{flat.type.human_readable()}: {flat.rooms} rooms / {flat.size} ㎡ / {rent}"
     block = _generate_markdown_block(text=description, image_url=thumbnail_url)
 
     # Send to Slack
