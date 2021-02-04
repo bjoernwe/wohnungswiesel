@@ -12,7 +12,8 @@ from zip_codes import BERLIN_ZIP_RANGE
 class FlatFilter:
 
     sources: Optional[List[str]] = None
-    types: Optional[List[RealEstateType]] = field(default_factory=lambda: [RealEstateType.apartment_rent])
+    types: Optional[List[RealEstateType]] = field(default_factory=lambda: [RealEstateType.apartment_rent,
+                                                                           RealEstateType.house_rent])
     rooms: Tuple[Optional[float], Optional[float]] = field(default=(None, None))
     wbs_required: Optional[bool] = None
     zip_range: Tuple[Optional[int], Optional[int]] = field(default=BERLIN_ZIP_RANGE)

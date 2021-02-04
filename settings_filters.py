@@ -24,6 +24,7 @@ SLACK_CHANNELS_FILTERS = {
     '#friedenau': FlatFilter(zip_whitelist=ZIPS_FRIEDENAU),
     '#friedrichsfelde': FlatFilter(zip_whitelist=ZIPS_FRIEDRICHSFELDE),
     '#friedrichshain': FlatFilter(zip_whitelist=ZIPS_FRIEDRICHSHAIN),
+    '#houses': FlatFilter(types=[RealEstateType.house_rent]),
     '#kreuzberg': FlatFilter(zip_whitelist=ZIPS_KREUZBERG),
     '#lichtenberg': FlatFilter(zip_whitelist=ZIPS_LICHTENBERG),
     '#mariendorf': FlatFilter(zip_whitelist=ZIPS_MARIENDORF),
