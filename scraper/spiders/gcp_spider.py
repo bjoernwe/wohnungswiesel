@@ -39,5 +39,5 @@ class GcpSpider(scrapy.Spider):
         image_urls = [response.urljoin(s.xpath('.//picture/@data-default-src').get())]
         flat = FlatItem(id=flat_id, source=self.name, link=link, title=title, size=size, rooms=rooms,
                         address=address, district=district, rent_cold=rent_cold, image_urls=image_urls,
-                        wbs_required=False, type=RealEstateType.apartment_rent)
+                        type=RealEstateType.apartment_rent)
         return flat

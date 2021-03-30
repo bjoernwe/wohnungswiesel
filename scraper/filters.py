@@ -15,7 +15,6 @@ class FlatFilter:
     types: Optional[List[RealEstateType]] = field(default_factory=lambda: [RealEstateType.apartment_rent,
                                                                            RealEstateType.house_rent])
     rooms: Tuple[Optional[float], Optional[float]] = field(default=(None, None))
-    wbs_required: Optional[bool] = None
     zip_range: Tuple[Optional[int], Optional[int]] = field(default=BERLIN_ZIP_RANGE)
     zip_whitelist: Optional[Set[int]] = None
     zip_blacklist: Optional[Set[int]] = None
@@ -32,10 +31,6 @@ class FlatFilter:
 
         # Rooms
         if not self._has_matching_number_of_rooms(flat):
-            return False
-
-        # WBS
-        if not self._has_matching_wbs_requirement(flat):
             return False
 
         # ZIP range
@@ -82,16 +77,6 @@ class FlatFilter:
             return False
 
         if rooms_max and flat.rooms > rooms_max:
-            return False
-
-        return True
-
-    def _has_matching_wbs_requirement(self, flat: FlatItem) -> bool:
-
-        if not self.wbs_required or not flat.wbs_required:
-            return True
-
-        if self.wbs_required != flat.wbs_required:
             return False
 
         return True

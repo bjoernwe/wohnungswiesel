@@ -54,7 +54,6 @@ class FlatItem:
     rent_cold: Optional[float] = None
     rent_total: Optional[float] = None
     image_urls: Optional[List[HttpUrl]] = None
-    wbs_required: Optional[bool] = None
     source_qualifier: Optional[str] = None
 
     @classmethod
