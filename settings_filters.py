@@ -13,7 +13,6 @@ SLACK_CHANNELS_FILTERS = {
     '#baumschulenweg': FlatFilter(zip_whitelist=ZIPS_BAUMSCHULENWEG),
     '#big': FlatFilter(
         rooms=(5, None),
-        wbs_required=False,
         zip_blacklist=ZIPS_BLACKLIST,
     ),
     '#britz': FlatFilter(zip_whitelist=ZIPS_BRITZ),
@@ -31,7 +30,6 @@ SLACK_CHANNELS_FILTERS = {
     '#marzahn': FlatFilter(zip_whitelist=ZIPS_MARZAHN),
     '#medium': FlatFilter(
         rooms=(3, 4),
-        wbs_required=False,
         zip_blacklist=ZIPS_BLACKLIST,
         types=[RealEstateType.apartment_rent],
     ),
@@ -39,7 +37,6 @@ SLACK_CHANNELS_FILTERS = {
     '#municipal': FlatFilter(
         sources=MUNICIPAL_VENDORS,
         rooms=(2, None),
-        wbs_required=False,
         zip_blacklist=ZIPS_BLACKLIST,
         types=[RealEstateType.apartment_rent],
     ),
@@ -54,13 +51,11 @@ SLACK_CHANNELS_FILTERS = {
     '#schöneberg': FlatFilter(zip_whitelist=ZIPS_SCHOENEBERG),
     '#single': FlatFilter(
         rooms=(1, 1.9),
-        wbs_required=False,
         zip_blacklist=ZIPS_BLACKLIST,
         types=[RealEstateType.apartment_rent],
     ),
     '#small': FlatFilter(
         rooms=(2, 3),
-        wbs_required=False,
         zip_blacklist=ZIPS_BLACKLIST,
         types=[RealEstateType.apartment_rent],
     ),
