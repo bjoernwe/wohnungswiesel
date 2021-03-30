@@ -7,9 +7,9 @@ from typing import Optional, List
 from scraper.items import FlatItem, RealEstateType
 
 
-def post_markdown_to_slack(text: str, channel: str):
+def post_markdown_to_slack(text: str, channel: str, preview_text: Optional[str] = None):
     block = _generate_markdown_block(text=text)
-    _send_blocks_to_slack(blocks=[block], channel=channel)
+    _send_blocks_to_slack(blocks=[block], channel=channel, preview_text=preview_text)
 
 
 def post_flat_to_slack(flat: FlatItem, channel: str):
@@ -39,7 +39,7 @@ def post_flat_to_slack(flat: FlatItem, channel: str):
 
     # Generate post
     thumbnail_url = flat.image_urls[0] if flat.image_urls else None
-    preview = f"{flat.rooms} rooms / {flat.size} ㎡ / {rent} €"
+    preview = f"{flat.type.human_readable()}: {flat.rooms} rooms / {flat.size} ㎡ / {rent}"
     block = _generate_markdown_block(text=description, image_url=thumbnail_url)
 
     # Send to Slack
@@ -64,7 +64,7 @@ def _generate_markdown_block(text: str, image_url: Optional[str] = None) -> dict
 
 
 def _send_blocks_to_slack(blocks: List[dict], channel: str, icon_url: str = 'https://i.imgur.com/OkldsAZ.jpg',
-                          preview_text: str = None):
+                          preview_text: Optional[str] = None):
     slack = WebClient(token=os.environ['SLACK_API_TOKEN'])
     try:
         slack.chat_postMessage(

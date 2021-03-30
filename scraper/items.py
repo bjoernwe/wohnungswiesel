@@ -22,6 +22,7 @@ class RealEstateType(str, Enum):
     apartment_rent = 'APARTMENT_RENT'
     garage_rent = 'GARAGE_RENT'
     gastronomy = 'GASTRONOMY'
+    house_rent = 'HOUSE_RENT'
     industry = 'INDUSTRY'
     office = 'OFFICE'
     short_term_accommodation = 'SHORT_TERM_ACCOMMODATION'
