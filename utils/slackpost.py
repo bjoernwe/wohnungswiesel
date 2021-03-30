@@ -4,37 +4,45 @@ from slack import WebClient
 from slack.errors import SlackApiError
 from typing import Optional, List
 
-from scraper.items import FlatItem
+from scraper.items import FlatItem, RealEstateType
 
 
-def post_markdown_to_slack(text: str, channel: str):
+def post_markdown_to_slack(text: str, channel: str, preview_text: Optional[str] = None):
     block = _generate_markdown_block(text=text)
-    _send_blocks_to_slack(blocks=[block], channel=channel)
+    _send_blocks_to_slack(blocks=[block], channel=channel, preview_text=preview_text)
 
 
 def post_flat_to_slack(flat: FlatItem, channel: str):
 
+    # Title
     source_qualifier = f'/{flat.source_qualifier}' if flat.source_qualifier else ''
+    description = f"> {flat.type.human_readable()}: <{flat.link}|*{flat.title}*> *[{flat.source}{source_qualifier}]*\n"
 
-    description = (
-        f"> <{flat.link}|*{flat.title}*> *[{flat.source}{source_qualifier}]*\n"
-        f"> {flat.rooms} rooms / ({flat.size} ㎡)\n"
-    )
+    # Add rooms
+    if flat.type == RealEstateType.apartment_rent:
+        description += f"> {flat.rooms} rooms / ({flat.size} ㎡)\n"
 
+    # Address
     address = _get_address(flat=flat)
     if address:
-        description += address
+        description += address + '\n'
 
+    # Rent
     rent = _get_rent(flat)
-    rent_per_room = flat.get_price_per_room_as_str()
-    rent_per_one_room_less = flat.get_price_per_room_as_str(minus_one=True)
-    description += f"> Miete: {rent} / {rent_per_room} ({rent_per_one_room_less}) €/room"
+    description += f"> Rent: {rent}"
 
+    # Add rent per room
+    if flat.type == RealEstateType.apartment_rent:
+        rent_per_room = flat.get_price_per_room_as_str()
+        rent_per_one_room_less = flat.get_price_per_room_as_str(minus_one=True)
+        description += f" / {rent_per_room} ({rent_per_one_room_less}) €/room"
+
+    # Generate post
     thumbnail_url = flat.image_urls[0] if flat.image_urls else None
-
-    preview = f"{flat.rooms} rooms / {flat.size} ㎡ / {rent} €"
-
+    preview = f"{flat.type.human_readable()}: {flat.rooms} rooms / {flat.size} ㎡ / {rent}"
     block = _generate_markdown_block(text=description, image_url=thumbnail_url)
+
+    # Send to Slack
     _send_blocks_to_slack(blocks=[block], channel=channel, preview_text=preview)
 
 
@@ -56,7 +64,7 @@ def _generate_markdown_block(text: str, image_url: Optional[str] = None) -> dict
 
 
 def _send_blocks_to_slack(blocks: List[dict], channel: str, icon_url: str = 'https://i.imgur.com/OkldsAZ.jpg',
-                          preview_text: str = None):
+                          preview_text: Optional[str] = None):
     slack = WebClient(token=os.environ['SLACK_API_TOKEN'])
     try:
         slack.chat_postMessage(
@@ -82,7 +90,7 @@ def _get_address(flat: FlatItem) -> Optional[str]:
     address = ''.join(parts)
 
     if address:
-        return address + '\n'
+        return address
 
 
 def _get_rent(flat: FlatItem) -> str:

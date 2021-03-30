@@ -45,7 +45,7 @@ class TestFlatFilter:
 
         # WHEN it is filtered with its zip code excluded
         zip_code = flat_filter._extract_zip(flat_item.address)
-        flat_filter = FlatFilter(excluded_zips=[zip_code, 88888])
+        flat_filter = FlatFilter(zip_blacklist=[zip_code, 88888])
 
         # THEN it's not a match
         assert not flat_filter.is_match(flat=flat_item)
