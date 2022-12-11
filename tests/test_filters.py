@@ -82,3 +82,18 @@ class TestFlatFilter:
 
         # THEN it is a match
         assert flat_filter.is_match(flat=flat_item)
+
+    def test_source_is_filtered_correctly(self, flat_item: FlatItem):
+
+        # GIVEN a flat item
+        # WHEN the flat is filtered with the correct source
+        is_match_correct = FlatFilter(sources=['test']).is_match(flat_item)
+
+        # THEN it is a match
+        assert is_match_correct
+
+        # AND WHEN the flat is filtered with an incorrect source
+        is_match_incorrect = FlatFilter(sources=['WRONG_SOURCE']).is_match(flat_item)
+
+        # THEN it is not a match
+        assert not is_match_incorrect
