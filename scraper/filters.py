@@ -12,6 +12,7 @@ from zip_codes import BERLIN_ZIP_RANGE
 class FlatFilter:
 
     sources: Optional[List[str]] = None
+    source_qualifiers: Optional[List[str]] = None
     types: Optional[List[RealEstateType]] = field(default_factory=lambda: [RealEstateType.apartment_rent,
                                                                            RealEstateType.house_rent])
     rooms: Tuple[Optional[float], Optional[float]] = field(default=(None, None))
@@ -23,6 +24,10 @@ class FlatFilter:
 
         # Sources
         if not self._has_matching_source(flat):
+            return False
+
+        # Source qualifiers
+        if not self._has_matching_source_qualifier(flat=flat):
             return False
 
         # Types
@@ -52,10 +57,20 @@ class FlatFilter:
         if not self.sources or not flat.source:
             return True
 
-        matches = [flat.source.startswith(src) for src in self.sources]
+        matches = {flat.source.startswith(src) for src in self.sources}
         has_matching_source = True in matches
 
         return has_matching_source
+
+    def _has_matching_source_qualifier(self, flat: FlatItem) -> bool:
+
+        if not self.source_qualifiers or not flat.source_qualifier:
+            return True
+
+        matches = {flat.source_qualifier.startswith(qualifier) for qualifier in self.source_qualifiers}
+        has_matching_qualifier = True in matches
+
+        return has_matching_qualifier
 
     def _is_matching_type(self, flat: FlatItem) -> bool:
 

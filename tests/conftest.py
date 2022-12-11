@@ -17,5 +17,6 @@ def flat_item() -> FlatItem:
         district=None,
         rent_cold=500,
         rent_total=600,
-        image_urls=None
+        image_urls=None,
+        source_qualifier='QUALIFIER',
     )

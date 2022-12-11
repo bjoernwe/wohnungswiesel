@@ -97,3 +97,29 @@ class TestFlatFilter:
 
         # THEN it is not a match
         assert not is_match_incorrect
+
+    def test_flat_without_source_always_matches(self, flat_item: FlatItem):
+
+        # GIVEN a flat item without source
+        flat_item.source = None
+
+        # WHEN the flat is filtered for its source
+        is_match = FlatFilter(sources=['SOME_SOURCE']).is_match(flat=flat_item)
+
+        # THEN it will match (this behavior is debatable)
+        assert is_match
+
+    def test_source_qualifier_is_filtered_correctly(self, flat_item: FlatItem):
+
+        # GIVEN a flat item
+        # WHEN the flat is filtered for a correct source qualifier
+        is_match_correct = FlatFilter(source_qualifiers=['QUALIFIER']).is_match(flat=flat_item)
+
+        # THEN it is a match
+        assert is_match_correct
+
+        # AND WHEN the flat is filtered for an incorrect source qualifier
+        is_match_incorrect = FlatFilter(source_qualifiers=['WRONG_QUALIFIER']).is_match(flat=flat_item)
+
+        # THEN it is not a match
+        assert not is_match_incorrect
